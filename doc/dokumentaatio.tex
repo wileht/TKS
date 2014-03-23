@@ -8,6 +8,9 @@
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{graphicx}
+\usepackage{array}
+\usepackage{hyperref}
+\usepackage{rotating}
 
 \pagestyle{plain}
 \setcounter{page}{1}
@@ -77,5 +80,92 @@ Foorumin \emph{ylläpitäjällä} on lisäksi oikeus mm. poistaa viestejä ja m�
 \noindent Käyttäjien ryhmittelyn lisäksi ylläpitäjä voi ryhmitellä myös viestejä asettamalla viesteille eri aihealueita, joihin kukin viesti mahdollisine vastineineen kuuluu.\\
 
 \noindent Loput käyttötapaukset on listattu käyttötapauskaaviossa.
+
+\chapter{Järjestelmän tietosisältö}
+
+\begin{center}
+\includegraphics[scale=0.55]{tietosisaltokaavio}
+\end{center}
+
+\renewcommand{\arraystretch}{1.5}
+
+\noindent \textbf{Käyttäjäryhmä}
+
+\begin{center}
+\begin{tabular}{| l | l | l | l |}
+\hline
+\textbf{Attribuutti} & \textbf{Arvojoukko} & \textbf{Kuvaus} \\ \hline
+Nimi & Merkkijono, max 20 merkkiä & Käyttäjäryhmän nimi \\ \hline
+\end{tabular}
+\end{center}
+\ \\
+
+\noindent \textbf{Käyttäjä}
+
+\begin{center}
+\begin{tabular}{| l | l | l | l |}
+\hline
+\textbf{Attribuutti} & \textbf{Arvojoukko} & \textbf{Kuvaus} \\ \hline
+Käyttäjätunnus & Merkkijono, max 20 merkkiä & Käyttäjän käyttäjätunnus \\ \hline
+Salasana & Merkkijono, max 20 merkkiä & Käyttäjän salasana (selkokielinen) \\ \hline
+\end{tabular}
+\end{center}
+\ \\
+
+ \noindent \textbf{Aloitusviesti}
+
+\begin{center}
+\begin{tabular}{| l | l |m{0.3\linewidth}|}
+\hline
+\textbf{Attribuutti} & \textbf{Arvojoukko} & \textbf{Kuvaus} \\ \hline
+Tunnus & Kokonaisluku & Viestin yksilöivä tunnus \\ \hline
+Kirjoittaja & Merkkijono, max 20 merkkiä & Viestin kirjoittaneen käyttäjän käyttäjätunnus \\ \hline
+Keskustelualue & Merkkijono, max 50 merkkiä & Mihin keskustelualueeseen viesti kuuluu \\ \hline
+\end{tabular}
+\end{center}
+\ \\
+
+\noindent \textbf{Vastine}
+
+\begin{center}
+\begin{tabular}{| l | l |m{0.3\linewidth}|}
+\hline
+\textbf{Attribuutti} & \textbf{Arvojoukko} & \textbf{Kuvaus} \\ \hline
+Tunnus & Kokonaisluku & Vastineen yksilöivä tunnus \\ \hline
+Kirjoittaja & Merkkijono, max 20 merkkiä & Viestin kirjoittaneen käyttäjän käyttäjätunnus \\ \hline
+Aloitusviesti & Kokonaisluku & Sen viestin tunnus, johon vastine on vastaus \\ \hline
+\end{tabular}
+\end{center}
+\ \\
+
+\noindent \textbf{Keskustelualue}
+
+\begin{center}
+\begin{tabular}{| l | l | l | l |}
+\hline
+\textbf{Attribuutti} & \textbf{Arvojoukko} & \textbf{Kuvaus} \\ \hline
+Nimi & Merkkijono, max 50 merkkiä & Keskustelualueen nimi \\ \hline
+\end{tabular}
+\end{center}
+
+\chapter{Relaatiotietokantakaavio}
+
+\begin{center}
+\includegraphics[scale=0.50]{relaatiotietokantakaavio}
+\end{center}
+
+\chapter{Käyttöliittymä}
+
+Sivukartta (seuraavalla sivulla):
+
+\begin{sideways}
+\includegraphics[scale=.6]{sivukartta}
+\end{sideways}
+
+\chapter{Käynnistys- / käyttöohje}
+
+Linkkejä:\\
+\href{http://wlehtoma.users.cs.helsinki.fi/Keskustelufoorumi/esittelysivu.html}{Esittelysivu}\\
+\href{http://wlehtoma.users.cs.helsinki.fi/Keskustelufoorumi/html-demo/}{Foorumi (html-demo)}
 
 \end{document}
