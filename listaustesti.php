@@ -1,10 +1,10 @@
 <?php
 //require_once sisällyttää annetun tiedoston vain kerran
 require_once "libs/models/tietokantayhteys.php";
-require_once "libs/models/Kayttaja.php";
+require_once "libs/models/ListaustestiKayttaja.php";
 
 //Lista asioista array-tietotyyppiin laitettuna:
-$lista = Kayttaja::etsiKaikkiKayttajat();
+$lista = ListaustestiKayttaja::etsiKaikkiKayttajat();
 ?><!DOCTYPE HTML>
 <html>
     <head><title>Otsikko</title></head>

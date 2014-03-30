@@ -4,49 +4,55 @@ class Kayttaja {
 
     private $id;
     private $nimi;
-    //private $password;
+    private $salasana;
 
-    public function __construct($id, $tunnus) {
+    public function __construct($id, $nimi, $salasana) {
         $this->id = $id;
-        $this->nimi = $tunnus;
-        //$this->salasana = $salasana;
+        $this->nimi = $nimi;
+        $this->salasana = $salasana;
     }
 
-    /* Tähän gettereitä ja settereitä */
-
-    public static function etsiKaikkiKayttajat() {
-        //require_once "tietokantayhteys.php";
-        $sql = "SELECT id, Nimi FROM Kayttaja";
+    public static function etsiKayttajaTunnuksilla($kayttaja, $salasana) {
+        $sql = "SELECT id, nimi, salasana from kayttaja where nimi = ? AND salasana = ? LIMIT 1";
+        require_once "tietokantayhteys.php";
         $kysely = getTietokantayhteys()->prepare($sql);
-        $kysely->execute();
+        $kysely->execute(array($kayttaja, $salasana));
 
-        $tulokset = array();
-        foreach ($kysely->fetchAll(PDO::FETCH_OBJ) as $tulos) {
-            $kayttaja = new Kayttaja($tulos->id,$tulos->nimi);
-            //$kayttaja->setId($tulos->id);
-            //$kayttaja->setTunnus($tulos->Nimi);
-            //$kayttaja->setSalanana($tulos->salasana);
+        $tulos = $kysely->fetchObject();
+        if ($tulos == null) {
+            return null;
+        } else {
+            $kayttaja = new Kayttaja($tulos->id,$tulos->nimi,$tulos->salasana);
+            $kayttaja->setId($tulos->id);
+            $kayttaja->setNimi($tulos->nimi);
+            $kayttaja->setSalasana($tulos->salasana);
 
-            //$array[] = $muuttuja; lisää muuttujan arrayn perään. 
-            //Se vastaa melko suoraan ArrayList:in add-metodia.
-            $tulokset[] = $kayttaja;
+            return $kayttaja;
         }
-        return $tulokset;
     }
 
-    public function getUsername() {
-        return $this->nimi;
+    public function getId() {
+        return $this->id;
     }
 
-    //public static function setSalasana($salasana) {
-        //$this->salasana = $salasana;
-    //}
-    
-    public function setTunnus($tunnus) {
-        $this->nimi = $tunnus;
-    }
-    
     public function setId($id) {
         $this->id = $id;
     }
+
+    public function getNimi() {
+        return $this->nimi;
+    }
+
+    public function setNimi($kirjoittaja) {
+        $this->nimi = $kirjoittaja;
+    }
+
+    public function getSalasana() {
+        return $this->salasana;
+    }
+
+    public function setSalasana($salasana) {
+        $this->salasana = $salasana;
+    }
+
 }
