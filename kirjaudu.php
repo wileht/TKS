@@ -32,7 +32,6 @@ session_start();
 $_SESSION['kirjautunut'] = $oikeaKayttaja;
 
 header('Location: etusivu.php');
-
 //if ($kayttaja == $oikeaKayttaja->nimi && $salasana == $oikeaKayttaja->salasana) {
 //    header('Location: index.php');
 //} else {

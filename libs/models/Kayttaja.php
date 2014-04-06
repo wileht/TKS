@@ -22,7 +22,7 @@ class Kayttaja {
         if ($tulos == null) {
             return null;
         } else {
-            $kayttaja = new Kayttaja($tulos->id,$tulos->nimi,$tulos->salasana);
+            $kayttaja = new Kayttaja();
             $kayttaja->setId($tulos->id);
             $kayttaja->setNimi($tulos->nimi);
             $kayttaja->setSalasana($tulos->salasana);
@@ -31,6 +31,20 @@ class Kayttaja {
         }
     }
 
+    public static function etsiNimiIdlla($id) {
+        $sql = "SELECT nimi from kayttaja where id = ? LIMIT 1";
+        require_once "tietokantayhteys.php";
+        $kysely = getTietokantayhteys()->prepare($sql);
+        $kysely->execute(array($id));
+
+        $tulos = $kysely->fetchObject();
+        if ($tulos == null) {
+            return 2;
+        } else {
+            return $tulos->nimi;
+        }
+    }
+    
     public function getId() {
         return $this->id;
     }

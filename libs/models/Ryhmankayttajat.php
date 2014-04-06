@@ -10,7 +10,7 @@ class Ryhmankayttajat {
         $this->kayttajaryhma = $kayttajaryhma;
     }
     
-    public function onkoYllapitaja() {
+    public function onkoYllapitaja($kayttaja) {
         
         if (!onkoKirjautunut()) {
             return false;
@@ -29,12 +29,21 @@ class Ryhmankayttajat {
             return false;
         }
         
-        $kayttaja = $_SESSION['kirjautunut'];
-        
+        //session_start();
+        require_once "libs/models/Kayttaja.php";
+        //$kayttaja = $_GET["kirjautunut"];
+        //$kayttaja = $_SESSION['kirjautunut'];
+        //$kayttaja = $data->kirjauutunut;
+        $kayttajaId = $kayttaja->getId();
+        //$kayttajaId = $kayttaja->getIdKayttaja();
+        echo '2';
+        return false;
         $sql1 = "SELECT kayttaja, kayttajaryhma from Ryhmankayttajat where kayttaja = ? AND kayttajaryhma = ? LIMIT 1";
         $kysely1 = getTietokantayhteys()->prepare($sql1);
-        $kysely1->execute(array($kayttaja->getId(), $kayttajaryhmaId)); //tämä ei toimi
+        $kysely1->execute(array($kayttajaId, $kayttajaryhmaId)); //tämä ei toimi
+        return false;
         $tulos1 = $kysely1->fetchObject();
+       
         
         if ($tulos1 == null) {
             return false;

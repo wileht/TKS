@@ -25,8 +25,21 @@ if (!onkoKirjautunut() && $sivu != "kirjautuminen.php") {
             <li><a href="uloskirjaus.php">Kirjaudu ulos</a></li>
         </ul>
         <div class="content">
+            <?php if (!empty($_SESSION['ilmoitus'])): ?>
+                <div class="alert alert-danger">
+                    <?php echo $_SESSION['ilmoitus']; ?>
+                </div>
+                <?php
+                unset($_SESSION['ilmoitus']);
+            endif;
+            ?>
             <?php if (!empty($data->virhe)): ?>
                 <div class="alert alert-danger"><?php echo $data->virhe; ?></div>
+            <?php endif; ?>
+            <?php if (!empty($data->virheet)): ?>
+                <?php foreach ($data->virheet as $virhe): ?>
+                    <div class="alert alert-danger"><?php echo $virhe; ?></div>
+                <?php endforeach; ?>
             <?php endif; ?>
             <?php require 'views/' . $sivu; ?>
         </div>

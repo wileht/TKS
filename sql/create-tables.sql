@@ -23,7 +23,8 @@ CREATE TABLE Aloitusviesti (
 id SERIAL PRIMARY KEY,
 Kirjoittaja INTEGER REFERENCES Kayttaja(id) ON DELETE SET NULL,
 Keskustelualue INTEGER REFERENCES Keskustelualue(id) ON DELETE CASCADE,
-Sisalto VARCHAR(65535)
+Sisalto VARCHAR(65535),
+Otsikko VARCHAR(30)
 );
 
 CREATE TABLE Vastine (

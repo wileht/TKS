@@ -15,3 +15,14 @@ function onkoKirjautunut() {
     }
     return false;
 }
+
+function onkoYllapitaja () {
+    if (!onkoKirjautunut()) {
+        return false;
+    }
+    require_once "libs/models/Kayttaja.php";
+    if (Ryhmankayttajat::onkoYllapitaja($_SESSION["kirjautunut"])) {
+        return true;
+    }
+    return false;
+}

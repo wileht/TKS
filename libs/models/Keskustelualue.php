@@ -9,6 +9,22 @@ class Keskustelualue {
         $this->id = $id;
         $this->nimi = $nimi;
     }
+    
+    public function kaikkiAlueet() {
+        $sql = "SELECT id, nimi from Keskustelualue";
+        require_once "tietokantayhteys.php";
+        $kysely = getTietokantayhteys()->prepare($sql);
+        $kysely->execute();
+        
+        $a = array();
+        foreach($kysely->fetchAll(PDO::FETCH_OBJ) as $jasen){
+            $uusi = new Keskustelualue();
+            $uusi->setId($jasen->id);
+            $uusi->setNimi($jasen->nimi);
+            $a[] = $uusi;
+    }  
+        return $a;
+    }
 
     public function getId() {
         return $this->id;
