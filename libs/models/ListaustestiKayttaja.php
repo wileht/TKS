@@ -12,8 +12,6 @@ class Kayttaja {
         //$this->salasana = $salasana;
     }
 
-    /* Tähän gettereitä ja settereitä */
-
     public static function etsiKaikkiKayttajat() {
         //require_once "tietokantayhteys.php";
         $sql = "SELECT id, Nimi FROM Kayttaja";
@@ -23,12 +21,6 @@ class Kayttaja {
         $tulokset = array();
         foreach ($kysely->fetchAll(PDO::FETCH_OBJ) as $tulos) {
             $kayttaja = new Kayttaja($tulos->id,$tulos->nimi);
-            //$kayttaja->setId($tulos->id);
-            //$kayttaja->setTunnus($tulos->Nimi);
-            //$kayttaja->setSalanana($tulos->salasana);
-
-            //$array[] = $muuttuja; lisää muuttujan arrayn perään. 
-            //Se vastaa melko suoraan ArrayList:in add-metodia.
             $tulokset[] = $kayttaja;
         }
         return $tulokset;

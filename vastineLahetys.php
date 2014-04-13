@@ -3,21 +3,22 @@
 session_start();
 require_once "libs/models/Aloitusviesti.php";
 require_once "libs/models/Kayttaja.php";
+require_once "libs/models/Vastine.php";
 
-//Luodaan viestille Aloitusviesti-luokan ilmentymä
-$uusiViesti = new Aloitusviesti();
+//Luodaan halutun kaltainen Vastine-luokan ilmentymä
+$uusiViesti = new Vastine();
 $uusiViesti->setKirjoittaja($_SESSION['kirjautunut']);
 $uusiViesti->setKeskustelualue($_GET['id']);
+$uusiViesti->setAloitusviesti($_GET['viesti']);
 $uusiViesti->setSisalto($_POST['sisalto']);
-$uusiViesti->setOtsikko($_POST['otsikko']);
 
-//Mikäli viesti on kelvollinen, se lisätään tietokantaan
+//Mikäli luotu vastine on kelvollinen, lisätään se tietokantaan
 if ($uusiViesti->onkoKelvollinen()) {
     $uusiViesti->lisaaKantaan();
     $_SESSION['ilmoitus'] = "Viesti lähetetty.";
-    header('Location: viesti.php?id='.$_GET['id'].'&viesti=' . $uusiViesti->getId());
+    header('Location: viesti.php?viesti=' . $_GET['viesti']);
 } else {
-    //Mikäli viesti ei ole kelvollinen, käyttäjä palautetaan kirjoitusnäkymään
+    //Mikäli luotu vastine ei ole kelvollinen, käyttäjälle näytetään kirjoitusnäkymä virheellisine syötteineen
     $virheet = $uusiViesti->getVirheet();
     require_once 'libs/funktiot.php';
 
@@ -32,7 +33,7 @@ if ($uusiViesti->onkoKelvollinen()) {
         $otsikko = null;
     }
 
-    naytaNakyma('uusiAloitusviesti.php', array(
+    naytaNakyma('uusiViesti.php', array(
         'virheet' => $virheet, 'sisalto' => $sisalto, 'otsikko' => $otsikko
     ));
 }

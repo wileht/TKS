@@ -10,38 +10,27 @@ class Ryhmankayttajat {
         $this->kayttajaryhma = $kayttajaryhma;
     }
     
-    public function onkoYllapitaja($kayttaja) {
-        
+    public function onkoYllapitaja($kayttajaId) {
+        //Tarkistetaan onko annettu käyttäjä ylläpitäjä (ts. Yllapitajat-käyttäjäryhmän jäsen)
         if (!onkoKirjautunut()) {
             return false;
         }
-        return true;
-        
-        // Ja jotenkin näin sen PITÄISI mennä:
         
         require_once "tietokantayhteys.php";
-        
         require_once "libs/models/Kayttajaryhma.php";
+        
         $ryhmannimi = "Yllapitajat";
-        $kayttajaryhmaId = Kayttajaryhma::haeRyhmanId($ryhmannimi);
+        $kayttajaryhmaId = Kayttajaryhma::haeRyhmanId($ryhmannimi); //Etsitään kyselyä varten käyttäjäryhmän tietokanta-id
         
         if ($kayttajaryhmaId == null) {
             return false;
         }
         
-        //session_start();
         require_once "libs/models/Kayttaja.php";
-        //$kayttaja = $_GET["kirjautunut"];
-        //$kayttaja = $_SESSION['kirjautunut'];
-        //$kayttaja = $data->kirjauutunut;
-        $kayttajaId = $kayttaja->getId();
-        //$kayttajaId = $kayttaja->getIdKayttaja();
-        echo '2';
-        return false;
+        
         $sql1 = "SELECT kayttaja, kayttajaryhma from Ryhmankayttajat where kayttaja = ? AND kayttajaryhma = ? LIMIT 1";
         $kysely1 = getTietokantayhteys()->prepare($sql1);
-        $kysely1->execute(array($kayttajaId, $kayttajaryhmaId)); //tämä ei toimi
-        return false;
+        $kysely1->execute(array($kayttajaId, $kayttajaryhmaId));
         $tulos1 = $kysely1->fetchObject();
        
         

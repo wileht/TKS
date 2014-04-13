@@ -1,10 +1,10 @@
 <?php 
 $viestiId = (int) $_GET['viesti'];
 
+//Sivutusta varten
 if (isset($_GET['sivu'])) {
     $sivu = (int)$_GET['sivu'];
 
-    //Sivunumero ei saa olla pienempi kuin yksi
     if ($sivu < 1) {
         $sivu = 1;
     }
@@ -14,11 +14,12 @@ if (isset($_GET['sivu'])) {
 
 $montako = 10;
 
+//Etsitään haluttu aloitusviesti. Mikäli viestiä ei löydy, ohjataan käyttäjä takaisin keskustelualueelle.
 require_once 'libs/models/Aloitusviesti.php';
 $aloitusviesti = Aloitusviesti::etsiAloitusviesti($viestiId);
 
 if ($aloitusviesti == null) {
-    naytaNakyma('keskustelualue.php', array(
+    naytaNakyma('keskustelualue.php?id='.$_GET['id'], array(
         'virhe' => "Viestiä ei löytynyt!"
     ));
 }
@@ -31,11 +32,3 @@ $sivuja = ceil(Vastine::lukumaara($viestiId) / $montako);
 require_once 'libs/funktiot.php';
 
     naytaNakyma('viesti.php', array('sivuja' => $sivuja, 'sivu' => $sivu, 'vastineet' => $vastineet, 'aloitusviesti' => $aloitusviesti));
-//        $sivu = "keskustelualue.php";
-//        require_once 'views/pohja.php';
-
-
-//$sivu = "viesti.php";
-//require_once 'libs/models/Keskustelualue.php';
-//$alueet = Keskustelualue::kaikkiAlueet();
-//require_once 'views/pohja.php'; 

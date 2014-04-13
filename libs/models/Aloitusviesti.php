@@ -19,6 +19,7 @@ class Aloitusviesti {
     }
 
     public function etsiAlueenViestit($id, $sivunro, $montako) {
+        //Etsitään annetun keskustelualueen halutut viestit ja tehdään niille Aloitusviesti-luokan ilmentymät
         $sql = "SELECT id, kirjoittaja, keskustelualue, sisalto, otsikko from Aloitusviesti where keskustelualue = ? 
               ORDER by otsikko LIMIT ? OFFSET ?";
         require_once "tietokantayhteys.php";
@@ -40,6 +41,7 @@ class Aloitusviesti {
     }
 
     public static function lukumaara($id) {
+        //Lasketaan ja palautetaan annetun keskustelualueen viestien määrä
         $sql = "SELECT count(*) FROM Aloitusviesti where keskustelualue = ?";
         $kysely = getTietokantayhteys()->prepare($sql);
         $kysely->execute(array($id));
@@ -47,6 +49,7 @@ class Aloitusviesti {
     }
 
     public function lisaaKantaan() {
+        //Lisätään viesti tietokantaan, palautetaan viestin tietokannassa saama id
         $sql = "INSERT INTO Aloitusviesti VALUES(default,?,?,?,?) RETURNING id";
         require_once "tietokantayhteys.php";
         $kysely = getTietokantayhteys()->prepare($sql);
@@ -54,13 +57,13 @@ class Aloitusviesti {
         $ok = $kysely->execute(array($this->getKirjoittaja(), $this->getKeskustelualue(), $this->getSisalto(), $this->getOtsikko()));
         if ($ok != null) {
             //Haetaan RETURNING-määreen palauttama id.
-            //HUOM! Tämä toimii ainoastaan PostgreSQL-kannalla!
             $this->id = $kysely->fetchColumn();
         }
         return $ok;
     }
 
     public function etsiAloitusviesti($viestiId) {
+        //Etsitään viesti tietokannasta annetun id:n perusteella, tehdään sille Aloitusviesti-luokan ilmentymä ja palautetaan se
         $sql = "SELECT id, kirjoittaja, keskustelualue, sisalto, otsikko from Aloitusviesti where id = ? LIMIT 1";
         require_once "tietokantayhteys.php";
         $kysely = getTietokantayhteys()->prepare($sql);
@@ -82,6 +85,7 @@ class Aloitusviesti {
     }
 
     public function getKirjoittajaNimi() {
+        //Etsitään viestin kirjoittajan nimi
         require_once 'libs/models/Kayttaja.php';
         return Kayttaja::etsiNimiIdlla($this->kirjoittaja);
     }
@@ -91,6 +95,7 @@ class Aloitusviesti {
     }
     
     public function muokkaaAloitusviestia($id) {
+        //Muokataan aloitusviestiä, joka löydetään annetun id:n perusteella
         $sql = "update Aloitusviesti set sisalto = ?, otsikko = ? where id = ?";
         require_once "tietokantayhteys.php";
         $kysely = getTietokantayhteys()->prepare($sql);
@@ -98,13 +103,12 @@ class Aloitusviesti {
         $ok = $kysely->execute(array($this->getSisalto(), $this->getOtsikko(), $id));
         if ($ok != null) {
             //Haetaan RETURNING-määreen palauttama id.
-            //HUOM! Tämä toimii ainoastaan PostgreSQL-kannalla!
             $this->id = $kysely->fetchColumn();
         }
-        return $ok;
     }
 
     public function poistaAloitusviesti($id) {
+        //Poistetaan id:n perusteella etsittävä aloitusviesti
         $sql = "delete from Aloitusviesti where id = ?";
         require_once "tietokantayhteys.php";
         $kysely = getTietokantayhteys()->prepare($sql);
@@ -143,6 +147,7 @@ class Aloitusviesti {
     public function setSisalto($sisalto) {
         $this->sisalto = $sisalto;
 
+        //Viestin sisältö ei saa olla tyhjä eikä yli 65 535 merkkiä pitkä
         if (trim($this->sisalto) == '') {
             $this->virheet['sisalto'] = "Viesti ei saa olla tyhjä.";
         } elseif (strlen($this->sisalto) > 65535) {
@@ -160,6 +165,7 @@ class Aloitusviesti {
     public function setOtsikko($otsikko) {
         $this->otsikko = $otsikko;
         
+        //Viestin otsikko ei saa olla tyhjä eikä liian pitkä
         if (trim($this->otsikko) == '') {
             $this->virheet['otsikko'] = "Otsikko ei saa olla tyhjä.";
         } elseif (strlen($this->otsikko) > 30) {

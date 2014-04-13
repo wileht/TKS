@@ -154,12 +154,20 @@ Nimi & Merkkijono, max 50 merkkiä & Keskustelualueen nimi \\ \hline
 \includegraphics[scale=0.50]{relaatiotietokantakaavio}
 \end{center}
 
-\chapter{Käyttöliittymä}
+\chapter{Järjestelmän yleisrakenne}
+
+Työ noudattaa MVC-mallia, mutta kaikki kontrollerit (apukontrollereineen) on sijoitettu projektin juureen. Yleiskäyttöiset, lähinnä istuntoa koskevat apufunktiot on sijoitettu libs-kansion funtkiot.php-tiedostoon.
+
+Näkymät puolestaan ovat views-kansiossa, ja mallit libs-kansion alikansiossa models (malliluokkien tiedostonimet on kirjoitettu isolla alkukirjaimella).
+
+Vain kirjautumis- ja rekisteröitymissivuja on mahdollista tarkastella kirjautumatta sisään. Ylläpitoalueen sivut puolestaan ovat vain ylläpitäjien nähtävissä.
+
+\chapter{Käyttöliittymä ja järjestelmän komponentit}
 
 Sivukartta (seuraavalla sivulla):
 
 \begin{sideways}
-\includegraphics[scale=.6]{sivukartta}
+\includegraphics[scale=.55]{sivukartta}
 \end{sideways}
 
 \chapter{Asennustiedot}
@@ -178,5 +186,13 @@ Normaalin käyttäjän tunnus ja salasana: Tapsa, koppelo\\
 \href{http://wlehtoma.users.cs.helsinki.fi/Keskustelufoorumi/esittelysivu.html}{Esittelysivu}\\
 \href{http://wlehtoma.users.cs.helsinki.fi/Keskustelufoorumi/html-demo/}{Html-demo}\\
 \href{http://wlehtoma.users.cs.helsinki.fi/Keskustelufoorumi/kirjautuminen.php}{Foorumi}
+
+\chapter{Testaus, tunnetut bugit ja puutteet \& jatkokehitysideat}
+
+Ylläpitoalue ei tällä hetkellä ole toiminnallinen.
+
+\chapter{Omat kokemukset}
+
+Tulee kun työ on valmis.
 
 \end{document}

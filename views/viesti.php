@@ -4,7 +4,7 @@
     <a href="etusivu.php"> Etusivu</a>
     > <a href="keskustelualue.php?id=<?php echo $data->aloitusviesti->getKeskustelualue(); ?>">Keskustelualue</a>
     > Viesti
-    <h1>Viesti</h1>
+    <h1><?php echo htmlspecialchars($data->aloitusviesti->getOtsikko()); ?></h1>
     <a href="uusiViesti.php" role="button" class="btn btn-success">
         <span class="glyphicon glyphicon-pencil"></span> Vastaa viestiin</a>
     <br>
@@ -25,35 +25,31 @@
         <tbody>
             <tr>
                 <td><?php echo htmlspecialchars($data->aloitusviesti->getKirjoittajaNimi()); ?></td>
-                <td><?php echo htmlspecialchars($data->aloitusviesti->getSisalto()); ?></td>
-                <td><a href="muokkaaAloitusviestia.php?id=<?php echo $data->aloitusviesti->getKeskustelualue(); ?>&viesti=<?php echo $data->aloitusviesti->getId(); ?>" 
-                       role="button" class="btn btn-xs btn-primary"><span class="glyphicon glyphicon-cog"></span> Muokkaa</a>
-                    <br><br><a href="poistaAloitusviesti.php?id=<?php echo $data->aloitusviesti->getKeskustelualue(); ?>&viesti=<?php echo $data->aloitusviesti->getId(); ?>" 
-                       role="button" class="btn btn-xs btn-danger"><span class="glyphicon glyphicon-trash"></span> Poista</a></td>
-                </tr>
+                <td><?php echo nl2br(htmlspecialchars($data->aloitusviesti->getSisalto())); ?></td>
+                <td><?php if (onkoKirjoittaja($data->aloitusviesti) || onkoYllapitaja()): ?><a href="muokkaaAloitusviestia.php?id=<?php echo $data->aloitusviesti->getKeskustelualue(); ?>&viesti=<?php echo $data->aloitusviesti->getId(); ?>" 
+                                                                                               role="button" class="btn btn-xs btn-primary"><span class="glyphicon glyphicon-cog"></span> Muokkaa</a><?php endif; ?>
+                     <?php if (onkoYllapitaja()): ?><br><br><a href="poistaAloitusviesti.php?id=<?php echo $data->aloitusviesti->getKeskustelualue(); ?>&viesti=<?php echo $data->aloitusviesti->getId(); ?>" 
+                                       role="button" class="btn btn-xs btn-danger"><span class="glyphicon glyphicon-trash"></span> Poista</a></td><?php endif; ?>
+            </tr>
             <?php foreach ($data->vastineet as $vastine): ?>
-<!--            <tr>
-                <td>Tipi</td>
-                <td><a href="http://fi.wikipedia.org/wiki/Kettu">Wikipedia</a>: Punakettu on kettujen suvun (Vulpes) kookkain laji, tosin kettujen koon alueellinen 
-                    vaihtelu on todella suurta. Täysikasvuisen ketun pituus ilman häntää vaihtelee välillä 45–90 cm; 
-                    tuuhea häntä on 30–55 cm pitkä.[2] Ketun paino vaihtelee muutamasta kilosta jopa yli kymmeneen kiloon. 
-                    Suomessa ketun keskipaino on hieman yli viisi kiloa.[3]
-                    <br>
-                    Väriltään kettu on tavallisesti punaruskea punakettu; sävy voi vaihdella vaalean kellanruskeasta hyvinkin syvänpunaiseen. 
-                    Sillä on valkoinen tai harmaa vatsanalus sekä tavallisesti mustat korvankärjet ja raajat. Myös hännänpää on tavallisesti valkoinen, 
-                    ja eläimen kurkussa ja rinnassa voi olla valkeita merkkejä. Luonnossa tavataan muitakin värimuotoja, kuten hopeakettuja (noin 10 % ketuista,
-                    varsinkin Pohjois-Amerikassa ja Siperiassa), joiden sävy vaihtelee hopeanvärisestä lähes mustaan. 
-                    Ristikettu on punaisen ja mustan ketun risteymä, jonka selässä on tavallisesti musta ristikuvio.[4]
-                </td>
-            </tr>-->
-            <tr>
+                <tr>
                     <td><?php echo htmlspecialchars($vastine->getKirjoittajaNimi()); ?></td>
-                    <td><?php echo htmlspecialchars($vastine->getSisalto()); ?></td>
-                    <td></td>
+                    <td><?php echo nl2br(htmlspecialchars($vastine->getSisalto())); ?></td>
+                    <td><?php if (onkoKirjoittaja($vastine) || onkoYllapitaja()): ?><a href="muokkaaVastinetta.php?id=<?php echo $data->aloitusviesti->getKeskustelualue(); ?>&viesti=<?php echo $data->aloitusviesti->getId(); ?>&vastine=<?php echo $vastine->getId(); ?>" 
+                                                                                                       role="button" class="btn btn-xs btn-primary"><span class="glyphicon glyphicon-cog"></span> Muokkaa</a>
+                            <br><br><a href="poistaVastine.php?id=<?php echo $data->aloitusviesti->getKeskustelualue(); ?>&viesti=<?php echo $data->aloitusviesti->getId(); ?>&vastine=<?php echo $vastine->getId(); ?>" 
+                                       role="button" class="btn btn-xs btn-danger"><span class="glyphicon glyphicon-trash"></span> Poista</a></td><?php endif; ?>
                 </tr>
             <?php endforeach; ?>
         </tbody>
     </table>
-    <a href="uusiViesti.php" role="button" class="btn btn-success">
-        <span class="glyphicon glyphicon-pencil"></span> Vastaa viestiin</a>
+    <?php if ($data->sivu > 1): ?>
+        <p><a href="viesti.php?id=<?php echo $alueId; ?>&viesti=<?php echo $_GET['viesti']; ?>&sivu=<?php echo $data->sivu - 1; ?>">Edellinen sivu</a>
+        <?php endif; ?>
+        <?php if ($data->sivu < $data->sivuja): ?>
+            <a href="viesti.php?id=<?php echo $alueId; ?>&viesti=<?php echo $_GET['viesti']; ?>&sivu=<?php echo $data->sivu + 1; ?>">Seuraava sivu</a>
+        <?php endif; ?>
+        <br>
+        <a href="uusiViesti.php?id=<?php echo $_GET['id']; ?>&viesti=<?php echo $_GET['viesti']; ?>" role="button" class="btn btn-success">
+            <span class="glyphicon glyphicon-pencil"></span> Vastaa viestiin</a>
 </div>

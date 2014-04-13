@@ -11,6 +11,7 @@ class Keskustelualue {
     }
     
     public function kaikkiAlueet() {
+        //Etsitään ja palautetaan kaikki foorumin keskustelualueet
         $sql = "SELECT id, nimi from Keskustelualue";
         require_once "tietokantayhteys.php";
         $kysely = getTietokantayhteys()->prepare($sql);

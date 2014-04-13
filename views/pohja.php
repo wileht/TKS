@@ -1,6 +1,6 @@
 <?php
 require_once "libs/funktiot.php";
-if (!onkoKirjautunut() && $sivu != "kirjautuminen.php") {
+if (!onkoKirjautunut() && $sivu != "kirjautuminen.php" && $sivu != "rekisteroi.php") {
     header('Location: kirjautuminen.php');
 }
 ?>
@@ -22,7 +22,7 @@ if (!onkoKirjautunut() && $sivu != "kirjautuminen.php") {
             <li><a href="etusivu.php">Etusivu</a></li>
             <li><a href="haku.php">Haku</a></li>
             <li><a href="yllapito.php">Ylläpito</a></li>
-            <li><a href="uloskirjaus.php">Kirjaudu ulos</a></li>
+            <?php if (onkoKirjautunut()): ?><li><a href="uloskirjaus.php">Kirjaudu ulos</a></li><?php endif; ?>
         </ul>
         <div class="content">
             <?php if (!empty($_SESSION['ilmoitus'])): ?>

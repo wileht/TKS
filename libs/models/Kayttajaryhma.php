@@ -11,9 +11,8 @@ class Kayttajaryhma {
     }
 
     public function haeRyhmanId($nimi) {
-        
+        //Haetaan käyttäjäryhmän id tietokannassa nimen perusteella
         $sql = "SELECT id from Kayttajaryhma where nimi = ? LIMIT 1";
-        //require_once "tietokantayhteys.php";
         $kysely = getTietokantayhteys()->prepare($sql);
         $kysely->execute(array($nimi));
 

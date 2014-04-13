@@ -20,9 +20,6 @@
                     <div class="col-sm-2">
                         <input type="text" class="form-control" id="inputDate1" placeholder="Ennen (PP.KK.VVVV)">
                     </div>
-                <!-- </div>
-                <div class="form-group"> 
-                    <label for="inputDate2" class="col-sm-1 control-label"></label> -->
                     <div class="col-sm-2">
                         <input type="text" class="form-control" id="inputDate2" placeholder="Jälkeen (PP.KK.VVVV)">
                     </div>

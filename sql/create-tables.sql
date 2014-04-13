@@ -31,7 +31,7 @@ CREATE TABLE Vastine (
 id SERIAL PRIMARY KEY,
 Kirjoittaja INTEGER REFERENCES Kayttaja(id) ON DELETE SET NULL,
 Keskustelualue INTEGER REFERENCES Keskustelualue(id) ON DELETE CASCADE,
-Aloitusviesti INTEGER REFERENCES Aloitusviesti(id),
+Aloitusviesti INTEGER REFERENCES Aloitusviesti(id) ON DELETE CASCADE,
 Sisalto VARCHAR(65535)
 );
 

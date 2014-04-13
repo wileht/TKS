@@ -4,9 +4,10 @@ session_start();
 require_once "libs/models/Aloitusviesti.php";
 require_once "libs/models/Kayttaja.php";
 require_once 'libs/funktiot.php';
+
+//Luodaan muokkausta varten uusi Aloitusviesti, jotta Aloitusviesti-luokan metodeja voidaan kutsua
 $uusiViesti = new Aloitusviesti();
-//$uusiViesti->setKirjoittaja($_SESSION['kirjautunut']->getId());
-$uusiViesti->setKirjoittaja(1);
+$uusiViesti->setKirjoittaja($_SESSION['kirjautunut']);
 $uusiViesti->setKeskustelualue($_GET['id']);
 $uusiViesti->setSisalto($_POST['sisalto']);
 $uusiViesti->setOtsikko($_POST['otsikko']);
@@ -16,6 +17,7 @@ if ($uusiViesti->onkoKelvollinen()) {
     $_SESSION['ilmoitus'] = "Muokkaus onnistui.";
     header('Location: viesti.php?viesti=' . $_GET['viesti']);
 } else {
+    //Mikäli muokkaus ei onnistunut, palautetaan käyttäjä muokkausnäkymään virheellisine muokkauksineen
     $virheet = $uusiViesti->getVirheet();
 
     if (isset($_POST["sisalto"])) {
