@@ -2,11 +2,11 @@
 <div class="container">
     <br>
     <a href="etusivu.php"> Etusivu</a>
-    > <a href="keskustelualue.php">Keskustelualue</a>
-    > <a href="viesti.php">Viesti</a>
+    > <a href="keskustelualue.php?id=<?php echo $_GET['id']; ?>"><?php echo $data->alueNimi; ?></a>
+    > <a href="viesti.php?id=<?php echo $_GET['id']; ?>&viesti=<?php echo $_GET['viesti']; ?>"><?php echo $data->aloitusviesti->getOtsikko(); ?></a>
     > Uusi viesti
     <h1>Uusi viesti</h1>
-    <form class="form-horizontal" role="form" action="vastineLahetys.php?viesti=<?php echo $_GET['viesti'] ?>" method="POST">
+    <form class="form-horizontal" role="form" action="vastineLahetys.php?id=<?php echo $_GET['id']; ?>&viesti=<?php echo $_GET['viesti'] ?>" method="POST">
             <div class="form-group">
                 <label for="sisalto" class="col-sm-1 control-label">Viesti</label>
                 <div class="col-sm-10">

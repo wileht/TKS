@@ -1,5 +1,4 @@
 <?php
-
 require_once "libs/funktiot.php";
 //Jos käyttäjätunnus tai salasana on tyhjä, kirjautumista ei hyväksytä
 if (empty($_POST["username"])) {

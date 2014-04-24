@@ -14,11 +14,12 @@
         <div class="container col-md-7">
             <h1>Lisää uusi alue</h1>
             <br>
-            <form class="form-horizontal" role="form" action="alueet.php" method="POST">
+            <form class="form-horizontal" role="form" action="alueLisays.php" method="POST">
                 <div class="form-group">
-                    <label for="inputText1" class="col-sm-2 control-label">Nimi</label>
+                    <label for="nimi" class="col-sm-2 control-label">Nimi</label>
                     <div class="col-sm-5">
-                        <input type="text" class="form-control" id="inputText1" placeholder="Nimi">
+                        <input type="text" class="form-control" id="nimi" name="nimi" placeholder="Nimi"
+                               value="<?php echo htmlspecialchars($data->nimi); ?>">
                     </div>
                 </div>
                 <div class="form-group">
@@ -26,21 +27,23 @@
                     <div class="col-sm-5">
                         <table class="table table-condensed">
                             <tbody>
-                                <tr>
-                                    <td><label class="checkbox-inline">
-                                            <input type="checkbox"> Kalat
-                                        </label></td>
-                                </tr>
-                                <tr>
-                                    <td><label class="checkbox-inline">
-                                            <input type="checkbox"> Hatut
-                                        </label></td>
-                                </tr>
-                                <tr>
-                                    <td><label class="checkbox-inline">
-                                            <input type="checkbox"> Koppelot
-                                        </label></td>
-                                </tr>
+                                <?php foreach ($data->ryhmat as $ryhma): ?>
+                                    <tr>
+                                        <td><label class="checkbox-inline">
+                                                <input type="checkbox" name="checklist[]" value="<?php echo $ryhma->getId(); ?>"> <?php echo $ryhma->getNimi(); ?>
+                                            </label></td>
+                                    </tr>
+                                <?php endforeach; ?>
+<!--                                <tr>
+                                <td><label class="checkbox-inline">
+                                        <input type="checkbox"> Hatut
+                                    </label></td>
+                            </tr>
+                            <tr>
+                                <td><label class="checkbox-inline">
+                                        <input type="checkbox"> Koppelot
+                                    </label></td>
+                            </tr>-->
                             </tbody>
                         </table>
                     </div>

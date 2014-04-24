@@ -14,7 +14,7 @@
         <div class="col-md-6">
             <h1>Ylläpito</h1>
             <br>
-            Tähän jotain.
+            <- Ylläpitotoiminnot vasemmalla.
         </div>
     </div>
 </div>

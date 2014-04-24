@@ -16,26 +16,18 @@
             <table class="table table-responsive">
                 <thead>
                     <tr>
-                        <th class="col-md-3">Toiminnot</th>
+                        <th class="col-md-4">Toiminnot</th>
                         <th>Ryhmä</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td><button type="button" class="btn btn-xs btn-danger"><span class="glyphicon glyphicon-trash"></span> Poista</button> 
-                            <a href="muokkaaRyhmaa.php" role="button" class="btn btn-xs btn-primary"><span class="glyphicon glyphicon-cog"></span> Muokkaa</a></td>
-                        <td>Kalat</td>
-                    </tr>
-                    <tr>
-                        <td><button type="button" class="btn btn-xs btn-danger"><span class="glyphicon glyphicon-trash"></span> Poista</button> 
-                            <a href="muokkaaRyhmaa.php" role="button" class="btn btn-xs btn-primary"><span class="glyphicon glyphicon-cog"></span> Muokkaa</a></td>
-                        <td>Hatut</td>
-                    </tr>
-                    <tr>
-                        <td><button type="button" class="btn btn-xs btn-danger"><span class="glyphicon glyphicon-trash"></span> Poista</button> 
-                            <a href="muokkaaRyhmaa.php" role="button" class="btn btn-xs btn-primary"><span class="glyphicon glyphicon-cog"></span> Muokkaa</a></td>                                
-                        <td>Koppelot</td>
-                    </tr>
+                    <?php foreach ($data->ryhmat as $ryhma): ?>
+                        <tr>
+                            <td><a href="poistaRyhma.php?ryhmaId=<?php echo $ryhma->getId(); ?>" role="button" class="btn btn-xs btn-danger"><span class="glyphicon glyphicon-trash"></span> Poista</a> 
+                                <a href="muokkaaRyhmaa.php?ryhmaId=<?php echo $ryhma->getId(); ?>" role="button" class="btn btn-xs btn-primary"><span class="glyphicon glyphicon-cog"></span> Poista jäseniä</a></td>
+                            <td><?php echo $ryhma->getNimi(); ?></td>
+                        </tr>
+                    <?php endforeach; ?>
                 </tbody>
             </table>
             <a href="uusiRyhma.php" role="button" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span> Lisää uusi ryhmä</a>

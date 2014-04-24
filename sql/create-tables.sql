@@ -15,6 +15,7 @@ Nimi VARCHAR(30)
 );
 
 CREATE TABLE RyhmanKayttajat (
+id SERIAL PRIMARY KEY,
 Kayttaja INTEGER REFERENCES Kayttaja(id) ON DELETE CASCADE,
 Kayttajaryhma INTEGER REFERENCES Kayttajaryhma(id) ON DELETE CASCADE
 );
@@ -24,7 +25,8 @@ id SERIAL PRIMARY KEY,
 Kirjoittaja INTEGER REFERENCES Kayttaja(id) ON DELETE SET NULL,
 Keskustelualue INTEGER REFERENCES Keskustelualue(id) ON DELETE CASCADE,
 Sisalto VARCHAR(65535),
-Otsikko VARCHAR(30)
+Otsikko VARCHAR(30),
+Paivamaara TIMESTAMP
 );
 
 CREATE TABLE Vastine (
@@ -32,12 +34,19 @@ id SERIAL PRIMARY KEY,
 Kirjoittaja INTEGER REFERENCES Kayttaja(id) ON DELETE SET NULL,
 Keskustelualue INTEGER REFERENCES Keskustelualue(id) ON DELETE CASCADE,
 Aloitusviesti INTEGER REFERENCES Aloitusviesti(id) ON DELETE CASCADE,
-Sisalto VARCHAR(65535)
+Sisalto VARCHAR(65535),
+Paivamaara TIMESTAMP
 );
 
 
 CREATE TABLE ViestinLukeneet (
 id SERIAL PRIMARY KEY,
-Viesti REFERENCES Aloitusviesti(id) ON DELETE CASCADE,
-Kayttaja REFERENCES Kayttaja(id) ON DELETE CASCADE
+Aloitusviesti INTEGER REFERENCES Aloitusviesti(id) ON DELETE CASCADE,
+Kayttaja INTEGER REFERENCES Kayttaja(id) ON DELETE CASCADE
+);
+
+CREATE TABLE RyhmanKeskustelualueet (
+id SERIAL PRIMARY KEY,
+Kayttajaryhma INTEGER REFERENCES Kayttajaryhma(id) ON DELETE CASCADE,
+Keskustelualue INTEGER REFERENCES Keskustelualue(id) ON DELETE CASCADE
 );

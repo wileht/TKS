@@ -22,4 +22,7 @@ $sivuja = ceil(Aloitusviesti::lukumaara($id) / $montako);
 
 require_once 'libs/funktiot.php';
 
-naytaNakyma('keskustelualue.php', array('sivuja' => $sivuja, 'sivu' => $sivu, 'viestit' => $viestit));
+require_once 'libs/models/Keskustelualue.php';
+$alueNimi = Keskustelualue::etsiNimiIdlla($id);
+
+naytaNakyma('keskustelualue.php', array('sivuja' => $sivuja, 'sivu' => $sivu, 'viestit' => $viestit, 'alueNimi' => $alueNimi));

@@ -3,6 +3,7 @@
 session_start();
 require_once "libs/models/Aloitusviesti.php";
 require_once "libs/models/Kayttaja.php";
+require_once 'libs/funktiot.php';
 
 //Luodaan viestille Aloitusviesti-luokan ilmentymä
 $uusiViesti = new Aloitusviesti();
@@ -10,6 +11,7 @@ $uusiViesti->setKirjoittaja($_SESSION['kirjautunut']);
 $uusiViesti->setKeskustelualue($_GET['id']);
 $uusiViesti->setSisalto($_POST['sisalto']);
 $uusiViesti->setOtsikko($_POST['otsikko']);
+$uusiViesti->setPaivamaara(pvmNyt());
 
 //Mikäli viesti on kelvollinen, se lisätään tietokantaan
 if ($uusiViesti->onkoKelvollinen()) {
@@ -19,7 +21,6 @@ if ($uusiViesti->onkoKelvollinen()) {
 } else {
     //Mikäli viesti ei ole kelvollinen, käyttäjä palautetaan kirjoitusnäkymään
     $virheet = $uusiViesti->getVirheet();
-    require_once 'libs/funktiot.php';
 
     if (isset($_POST["sisalto"])) {
         $sisalto = $_POST["sisalto"];

@@ -13,32 +13,29 @@
         </div>
         <div class="container col-md-7">
             <h1>Ryhmän jäsenet</h1>
-            <table class="table table-condensed">
-                <thead>
-                    <tr>
-                        <th>Käyttäjä</th>
-                        <th>Viestejä(?)</th>
-                        <th>Viimeisin viesti(?)</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><label class="checkbox-inline">
-                                <input type="checkbox"> Tapsa
-                            </label></td>
-                        <td>13</td>
-                        <td>27.2.1014 22:34 </td>
-                    </tr>
-                    <tr>
-                        <td><label class="checkbox-inline">
-                                <input type="checkbox"> Tipi
-                            </label></td>
-                        <td>2</td>
-                        <td>19.3.2014 18:21</td>
-                    </tr>
-                </tbody>
-            </table>
-            <button type="button" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span> Poista ryhmästä</button>
+            <form class="form-horizontal" role="form" action="poistaRyhmasta.php?ryhmaId=<?php echo $_GET['ryhmaId']; ?>" method="POST">
+                <table class="table table-condensed">
+                    <thead>
+                        <tr>
+                            <th>Käyttäjä</th>
+                            <th>Viestejä</th>
+                            <th>Viimeisin viesti</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($data->kayttajat as $kayttaja): ?>
+                            <tr>
+                                <td><label class="checkbox-inline">
+                                        <input type="checkbox" name="checklist[]" value="<?php echo $kayttaja->getId(); ?>"> <?php echo $kayttaja->getNimi(); ?>
+                                    </label></td>
+                                <td><?php echo $kayttaja->montakoViestia(); ?></td>
+                                <td><?php echo $kayttaja->viimeisinViesti(); ?></td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+                <button type="submit" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span> Poista ryhmästä</button>
+            </form>
         </div>
     </div>
 </div>

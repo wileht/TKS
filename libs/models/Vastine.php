@@ -7,21 +7,23 @@ class Vastine {
     private $keskustelualue;
     private $aloitusviesti;
     private $sisalto;
+    private $paivamaara;
     private $virheet;
 
-    public function __construct($id, $kirjoittaja, $keskustelualue, $aloitusviesti, $sisalto, $virheet) {
+    public function __construct($id, $kirjoittaja, $keskustelualue, $aloitusviesti, $sisalto, $paivamaara, $virheet) {
         $this->id = $id;
         $this->kirjoittaja = $kirjoittaja;
         $this->keskustelualue = $keskustelualue;
         $this->aloitusviesti = $aloitusviesti;
         $this->sisalto = $sisalto;
+        $this->paivamaara = $paivamaara;
         $this->virheet = $virheet;
     }
 
     public function etsiVastineet($viestiId, $montako, $sivunro) {
         //Etsitään haluttu määrä annetun aloitusviestin vastineita, tehdään niille Vastine-luokan ilmentymät ja palautetaan ne
-        $sql = "SELECT id, kirjoittaja, keskustelualue, aloitusviesti, sisalto from Vastine where aloitusviesti = ? 
-              ORDER by id LIMIT ? OFFSET ?";
+        $sql = "SELECT id, kirjoittaja, keskustelualue, aloitusviesti, sisalto, paivamaara from Vastine where aloitusviesti = ? 
+              ORDER by paivamaara LIMIT ? OFFSET ?";
         require_once "tietokantayhteys.php";
         $kysely = getTietokantayhteys()->prepare($sql);
         $kysely->execute(array($viestiId, $montako, ($sivunro - 1) * $montako));
@@ -34,6 +36,7 @@ class Vastine {
             $uusi->setAloitusviesti($vastine->aloitusviesti);
             $uusi->setSisalto($vastine->sisalto);
             $uusi->setKeskustelualue($vastine->keskustelualue);
+            $uusi->setPaivamaara($vastine->paivamaara);
             $a[] = $uusi;
         }
 
@@ -54,22 +57,43 @@ class Vastine {
         return Kayttaja::etsiNimiIdlla($this->kirjoittaja);
     }
 
+    public function getKeskustelualueNimi() {
+        require_once 'libs/models/Keskustelualue.php';
+        return Keskustelualue::etsiNimiIdlla($this->keskustelualue);
+    }
+    
+    public static function kayttajanViesteja($id) {
+        //Lasketaan ja palautetaan annetun keskustelualueen viestien määrä
+        $sql = "SELECT count(*) FROM Vastine where kirjoittaja = ?";
+        $kysely = getTietokantayhteys()->prepare($sql);
+        $kysely->execute(array($id));
+        return $kysely->fetchColumn();
+    }
+    
+    public function kayttajanViimeisinViestiPvm($id) {
+        $sql = "SELECT max(paivamaara) FROM Vastine where kirjoittaja = ?";
+        $kysely = getTietokantayhteys()->prepare($sql);
+        $kysely->execute(array($id));
+        return $kysely->fetchColumn();
+    }
+
     public function lisaaKantaan() {
         //Lisätään viesti tietokantaan
-        $sql = "INSERT INTO Vastine VALUES(default,?,?,?,?) RETURNING id";
+        $sql = "INSERT INTO Vastine VALUES(default,?,?,?,?,?) RETURNING id";
         require_once "tietokantayhteys.php";
         $kysely = getTietokantayhteys()->prepare($sql);
 
-        $ok = $kysely->execute(array($this->getKirjoittaja(), $this->getKeskustelualue(), $this->getAloitusviesti(),$this->getSisalto()));
+        $ok = $kysely->execute(array($this->getKirjoittaja(), $this->getKeskustelualue(), $this->getAloitusviesti(), $this->getSisalto()
+            , $this->getPaivamaara()));
         if ($ok != null) {
             //Haetaan RETURNING-määreen palauttama id.
             $this->id = $kysely->fetchColumn();
         }
     }
-    
+
     public function etsiVastine($viestiId) {
         //Etsitään vastine tämän tietokanta-id:n perusteella
-        $sql = "SELECT id, kirjoittaja, keskustelualue, aloitusviesti, sisalto from Vastine where id = ? LIMIT 1";
+        $sql = "SELECT id, kirjoittaja, keskustelualue, aloitusviesti, sisalto, paivamaara from Vastine where id = ? LIMIT 1";
         require_once "tietokantayhteys.php";
         $kysely = getTietokantayhteys()->prepare($sql);
         $kysely->execute(array($viestiId));
@@ -84,11 +108,12 @@ class Vastine {
             $viesti->setKeskustelualue($tulos->keskustelualue);
             $viesti->setAloitusviesti($tulos->aloitusviesti);
             $viesti->setSisalto($tulos->sisalto);
+            $viesti->setPaivamaara($tulos->paivamaara);
 
             return $viesti;
         }
     }
-    
+
     public function muokkaaVastinetta($id) {
         //Muokataan annetun id:n määräämää vastinetta
         $sql = "update Vastine set sisalto = ? where id = ?";
@@ -101,7 +126,7 @@ class Vastine {
             $this->id = $kysely->fetchColumn();
         }
     }
-    
+
     public function poistaVastine($id) {
         //Poistetaan annetun id:n määräämä vastine
         $sql = "delete from Vastine where id = ?";
@@ -110,6 +135,39 @@ class Vastine {
 
         $ok = $kysely->execute(array($id));
     }
+
+    public function etsiUusimmanVastineenPvm($viestiId) {
+        $sql = "SELECT max(paivamaara) FROM Vastine where aloitusviesti = ?";
+        $kysely = getTietokantayhteys()->prepare($sql);
+        $kysely->execute(array($viestiId));
+        return $kysely->fetchColumn();
+    }
+
+    public function etsiHakusanalla($sana) {
+        $sana = "%" . $sana . "%";
+        $sql = "SELECT id, kirjoittaja, keskustelualue, aloitusviesti, sisalto, paivamaara from Vastine where sisalto ILIKE ? ORDER by paivamaara";
+        require_once "tietokantayhteys.php";
+        $kysely = getTietokantayhteys()->prepare($sql);
+        $kysely->execute(array($sana));
+
+        $c = array();
+        foreach ($kysely->fetchAll(PDO::FETCH_OBJ) as $viesti) {
+            $uusi = new Vastine();
+            $uusi->setId($viesti->id);
+            $uusi->setKirjoittaja($viesti->kirjoittaja);
+            $uusi->setKeskustelualue($viesti->keskustelualue);
+            $uusi->setAloitusviesti($viesti->aloitusviesti);
+            $uusi->setSisalto($viesti->sisalto);
+            $uusi->setPaivamaara($viesti->paivamaara);
+            $c[] = $uusi;
+        }
+        return $c;
+    }
+
+    public function getOtsikko() {
+        return 'blaarg';
+    }
+
     public function getId() {
         return $this->id;
     }
@@ -146,12 +204,11 @@ class Vastine {
             $this->virheet['sisalto'] = "Viesti ei saa olla tyhjä.";
         } elseif (strlen($this->sisalto) > 65535) {
             $this->virheet['sisalto'] = "Viestisi on liian pitkä.";
-        }
-        else {
+        } else {
             unset($this->virheet['sisalto']);
         }
     }
-    
+
     public function onkoKelvollinen() {
         return empty($this->virheet);
     }
@@ -162,6 +219,14 @@ class Vastine {
 
     public function setAloitusviesti($aloitusviesti) {
         $this->aloitusviesti = $aloitusviesti;
+    }
+
+    public function getPaivamaara() {
+        return $this->paivamaara;
+    }
+
+    public function setPaivamaara($paivamaara) {
+        $this->paivamaara = $paivamaara;
     }
 
 }

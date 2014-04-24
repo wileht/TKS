@@ -14,11 +14,12 @@
         <div class="container col-md-7">
             <h1>Lisää uusi käyttäjäryhmä</h1>
             <br>
-            <form class="form-horizontal" role="form" action="ryhmat.php" method="POST">
+            <form class="form-horizontal" role="form" action="ryhmaLisays.php" method="POST">
                 <div class="form-group">
                     <label for="inputText1" class="col-sm-1 control-label">Nimi</label>
                     <div class="col-sm-5">
-                        <input type="text" class="form-control" id="inputText1" placeholder="Nimi">
+                        <input type="text" class="form-control" id="inputText1" placeholder="Nimi" name="nimi"
+                               value="<?php echo $data->nimi; ?>">
                     </div>
                 </div>
                 <div class="form-group">

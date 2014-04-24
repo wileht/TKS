@@ -1,8 +1,8 @@
 <!DOCTYPE HTML>
 <div class="container">
-            <h1>Rekisteröidy</h1>
-            <br>
-            <form class="form-horizontal" role="form" action="rekisterointi.php" method="POST">
+    <h1>Rekisteröidy</h1>
+    <br>
+    <form class="form-horizontal" role="form" action="rekisterointi.php" method="POST">
         <div class="form-group">
             <label for="inputText1" class="col-sm-2 control-label">Käyttäjätunnus</label>
             <div class="col-sm-5">
@@ -23,4 +23,4 @@
             </div>
         </div>
     </form>
-        </div>
+</div>

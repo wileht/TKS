@@ -44,7 +44,7 @@ class Kayttaja {
 
         $tulos = $kysely->fetchObject();
         if ($tulos == null) {
-            return "[Tuntematon käyttäjä]";
+            return "[poistettu]";
         } else {
             return $tulos->nimi;
         }
@@ -65,6 +65,22 @@ class Kayttaja {
         }
     }
     
+    public function etsiKaikki() {
+        $sql = "SELECT id, nimi from Kayttaja";
+        require_once "tietokantayhteys.php";
+        $kysely = getTietokantayhteys()->prepare($sql);
+        $kysely->execute();
+
+        $a = array();
+        foreach ($kysely->fetchAll(PDO::FETCH_OBJ) as $jasen) {
+            $uusi = new Kayttaja();
+            $uusi->setId($jasen->id);
+            $uusi->setNimi($jasen->nimi);
+            $a[] = $uusi;
+        }
+        return $a;
+    }
+    
     public function lisaaKantaan() {
         //Lisätään käyttäjä tietokantaan ja palautetaan tämän tietokannassa saama id
         $sql = "INSERT INTO Kayttaja VALUES(default,?,?) RETURNING id";
@@ -77,6 +93,33 @@ class Kayttaja {
             $this->id = $kysely->fetchColumn();
         }
         return $ok;
+    }
+    
+    public function montakoViestia() {
+        require_once 'libs/models/Aloitusviesti.php';
+        require_once 'libs/models/Vastine.php';
+        
+        $aloitusViesteja = Aloitusviesti::kayttajanViesteja($this->getId());
+        $vastineita = Vastine::kayttajanViesteja($this->getId());
+        
+        return $aloitusViesteja + $vastineita;
+    }
+    
+    public function viimeisinViesti() {
+        require_once 'libs/models/Aloitusviesti.php';
+        require_once 'libs/models/Vastine.php';
+        
+        $viimeisinAloitusviesti = Aloitusviesti::kayttajanViimeisinViestiPvm($this->getId());
+        $viimeisinVastine = Vastine::kayttajanViimeisinViestiPvm($this->getId());
+        return max($viimeisinAloitusviesti, $viimeisinVastine);
+    }
+    
+    public function poistaKayttaja($id) {
+        $sql = "delete from Kayttaja where id = ?";
+        require_once "tietokantayhteys.php";
+        $kysely = getTietokantayhteys()->prepare($sql);
+
+        $ok = $kysely->execute(array($id));
     }
     
     public function onkoKelvollinen() {

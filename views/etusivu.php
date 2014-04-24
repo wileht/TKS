@@ -5,8 +5,7 @@
         <thead>
             <tr>
                 <th>Alue</th>
-                <th>Viestejä(?)</th>
-                <th>Viimeisin viesti(?)</th>
+                <th>Aiheita</th>
                 <th></th>
             </tr>
         </thead>
@@ -14,9 +13,8 @@
             <?php foreach ($alueet as $alue): ?>
                 <tr>
                     <td><a href="keskustelualue.php?id=<?php echo $alue->getId() ?>"><?php echo $alue->getNimi() ?></a></td>
-                    <td>1</td>
-                    <td>pvm</td>
-                    <td><button type="button" class="btn btn-xs btn-danger"><span class="glyphicon glyphicon-envelope"></span> Lukemattomia viestejä</button></td>
+                    <td><?php echo $alue->getViesteja(); ?></td>
+                    <td><?php if (!onkoKirjautunutLukenutAlueen($alue->getId())): ?><a href="keskustelualue.php?id=<?php echo $alue->getId() ?>" role="button" class="btn btn-xs btn-success"><span class="glyphicon glyphicon-envelope"></span> Lukemattomia viestejä</a><?php endif; ?></td>
                 </tr>
             <?php endforeach; ?>
         </tbody>

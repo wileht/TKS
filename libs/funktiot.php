@@ -33,7 +33,7 @@ function onkoYllapitaja() {
 function onkoKirjoittaja($viesti) {
     require_once "libs/models/Aloitusviesti.php";
     require_once "libs/models/Vastine.php";
-    
+
     if (!onkoKirjautunut()) {
         return false;
     }
@@ -42,4 +42,45 @@ function onkoKirjoittaja($viesti) {
         return true;
     }
     return false;
+}
+
+function pvmNyt() {
+    date_default_timezone_set('UTC+2');
+    return date("Y-m-d H:i:s");
+}
+
+function kayttajaLukenut($viesti) {
+    require_once 'libs/models/ViestinLukeneet.php';
+
+    if (ViestinLukeneet::onkoLukenut($viesti, $_SESSION['kirjautunut'])) {
+        return;
+    } else {
+        $uusiVL = new ViestinLukeneet();
+        $uusiVL->setAloitusviesti($viesti);
+        $uusiVL->setKayttaja($_SESSION['kirjautunut']);
+
+        $uusiVL->lisaaKantaan();
+    }
+}
+
+function onkoKirjautunutLukenut($viesti) {
+    require_once 'libs/models/ViestinLukeneet.php';
+
+    if (ViestinLukeneet::onkoLukenut($viesti, $_SESSION['kirjautunut'])) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function onkoKirjautunutLukenutAlueen($alue) {
+    require_once 'libs/models/Aloitusviesti.php';
+    $viestit = Aloitusviesti::etsiAlueenKaikkiViestitId($alue);
+    
+    foreach ($viestit as $viesti) {
+        if(!onkoKirjautunutLukenut($viesti)) {
+            return false;
+        }
+    }
+    return true;
 }
