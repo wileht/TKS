@@ -5,7 +5,7 @@ require_once "libs/models/Aloitusviesti.php";
 require_once "libs/models/Kayttaja.php";
 require_once 'libs/funktiot.php';
 
-//Luodaan muokkausta varten uusi Aloitusviesti, jotta Aloitusviesti-luokan metodeja voidaan kutsua
+//Luodaan muokkausta ja virheentarkistusta varten uusi Aloitusviesti, jonka kautta Aloitusviesti-luokan metodeja voidaan kutsua
 $uusiViesti = new Aloitusviesti();
 $uusiViesti->setKirjoittaja($_SESSION['kirjautunut']);
 $uusiViesti->setKeskustelualue($_GET['id']);

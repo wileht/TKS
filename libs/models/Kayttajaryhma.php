@@ -42,6 +42,22 @@ class Kayttajaryhma {
         return $a;
     }
     
+    public function onkoNimiVapaa() {
+        $nimi = $this->nimi;
+        
+        $sql = "SELECT id from Kayttajaryhma where nimi = ? LIMIT 1";
+        require_once "tietokantayhteys.php";
+        $kysely = getTietokantayhteys()->prepare($sql);
+        $kysely->execute(array($nimi));
+
+        $tulos = $kysely->fetchObject();
+        if ($tulos == null) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
     public function lisaaKantaan() {
         //Lisätään käyttäjäryhmä tietokantaan, palautetaan alueen tietokannassa saama id
         $sql = "INSERT INTO Kayttajaryhma VALUES(default,?) RETURNING id";

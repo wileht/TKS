@@ -29,10 +29,10 @@ insert into Aloitusviesti
 values(default,2,1,'raar!','zippadei','2003-10-10 14:12:42');
 
 insert into Vastine
-values(default,1,1,1,'Tämä on mrkhavainto Keravalta.','1763-11-11 15:30:01');
+values(default,1,1,1,'Tämä on mörköhavainto Keravalta.','1763-11-11 15:30:01');
 
 insert into Kayttajaryhma
 values(default,'Hatut');
 
 insert into RyhmanKeskustelualueet
-values(default,(select id from Kayttaja where nimi='Tapsa'),(select id from Kayttajaryhma where nimi='Hatut'));
+values(default,(select id from Kayttajaryhma where nimi='Hatut'),(select id from Keskustelualue where nimi='Kissat'));

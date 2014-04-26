@@ -76,11 +76,36 @@ function onkoKirjautunutLukenut($viesti) {
 function onkoKirjautunutLukenutAlueen($alue) {
     require_once 'libs/models/Aloitusviesti.php';
     $viestit = Aloitusviesti::etsiAlueenKaikkiViestitId($alue);
-    
+
     foreach ($viestit as $viesti) {
-        if(!onkoKirjautunutLukenut($viesti)) {
+        if (!onkoKirjautunutLukenut($viesti)) {
             return false;
         }
     }
     return true;
+}
+
+function onkoKayttajallaOikeuttaAlueeseen($keskustelualue) {
+    if (!onkoKirjautunut()) {
+        return false;
+    }
+    if (onkoYllapitaja()) {
+        return true;
+    }
+
+    require_once "libs/models/RyhmanKeskustelualueet.php";
+    require_once "libs/models/Ryhmankayttajat.php";
+    
+    if (RyhmanKeskustelualueet::onkoKaikilleAvoin($keskustelualue)) {
+        return true;
+    }
+
+    $ryhmat = Ryhmankayttajat::etsiKayttajanRyhmatVainId($_SESSION['kirjautunut']);
+
+    foreach ($ryhmat as $ryhma) {
+        if (RyhmanKeskustelualueet::onkoKayttajaryhmallaOikeuttaAlueeseen($ryhma, $keskustelualue)) {
+            return true;
+        }
+    }
+    return false;
 }

@@ -69,6 +69,22 @@ class Keskustelualue {
 
         $ok = $kysely->execute(array($id));
     }
+    
+    public function onkoNimiVapaa() {
+        $nimi = $this->nimi;
+        
+        $sql = "SELECT id from Keskustelualue where nimi = ? LIMIT 1";
+        require_once "tietokantayhteys.php";
+        $kysely = getTietokantayhteys()->prepare($sql);
+        $kysely->execute(array($nimi));
+
+        $tulos = $kysely->fetchObject();
+        if ($tulos == null) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
     public function getViesteja() {
         require_once 'libs/models/Aloitusviesti.php';

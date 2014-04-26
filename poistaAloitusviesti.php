@@ -1,7 +1,6 @@
 <?php
 require_once 'libs/funktiot.php';
 require_once 'libs/models/Aloitusviesti.php';
-$viesti = Aloitusviesti::etsiAloitusviesti($_GET['viesti']);
 
 //Vain ylläpitäjä voi poistaa aloitusviestejä, koska aloitusviestin poistaminen poistaa myös sen vastineet
 if (onkoYllapitaja()) {

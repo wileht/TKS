@@ -17,12 +17,15 @@
                 <thead>
                     <tr>
                         <th>Alueet</th>
+                        <th>Toiminnot</th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php foreach ($alueet as $alue): ?>
                         <tr>
-                            <td><a href="poistaAlue.php?id=<?php echo $alue->getId(); ?>" role="button" class="btn btn-xs btn-danger"><span class="glyphicon glyphicon-trash"></span> Poista</a><a href="keskustelualue.php?id=<?php echo $alue->getId() ?>"> <?php echo $alue->getNimi() ?></a></td>
+                            <td><a href="keskustelualue.php?id=<?php echo $alue->getId() ?>"> <?php echo $alue->getNimi() ?></a></td>
+                            <td><a href="poistaAlue.php?id=<?php echo $alue->getId(); ?>" role="button" class="btn btn-xs btn-danger"><span class="glyphicon glyphicon-trash"></span> Poista</a>
+                                <a href="muokkaaAlueenRyhmia.php?id=<?php echo $alue->getId(); ?>" role="button" class="btn btn-xs btn-primary"><span class="glyphicon glyphicon-cog"></span> Muokkaa käyttöoikeuksia</a></td>
                         </tr>
                     <?php endforeach; ?>
                 </tbody>

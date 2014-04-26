@@ -1,6 +1,8 @@
 <?php
-
+require_once 'libs/funktiot.php';
 $id = (int) $_GET['id'];
+
+if (onkoKayttajallaOikeuttaAlueeseen($id)) {
 
 //Sivutusta varten
 if (isset($_GET['sivu'])) {
@@ -20,9 +22,11 @@ $viestit = Aloitusviesti::etsiAlueenViestit($id, $sivu, $montako);
 
 $sivuja = ceil(Aloitusviesti::lukumaara($id) / $montako);
 
-require_once 'libs/funktiot.php';
-
 require_once 'libs/models/Keskustelualue.php';
 $alueNimi = Keskustelualue::etsiNimiIdlla($id);
 
 naytaNakyma('keskustelualue.php', array('sivuja' => $sivuja, 'sivu' => $sivu, 'viestit' => $viestit, 'alueNimi' => $alueNimi));
+} else {
+    $_SESSION['ilmoitus'] = "Sinulla ei ole oikeuksia tarkastella tätä sivua.";
+    header('Location: etusivu.php');
+}

@@ -114,6 +114,18 @@ class Kayttaja {
         return max($viimeisinAloitusviesti, $viimeisinVastine);
     }
     
+    public function muutaSalasanaa($kayttaja, $salasana) {
+        $sql = "update Kayttaja set salasana = ? where id = ?";
+        require_once "tietokantayhteys.php";
+        $kysely = getTietokantayhteys()->prepare($sql);
+
+        $ok = $kysely->execute(array($salasana, $kayttaja));
+        if ($ok != null) {
+            //Haetaan RETURNING-määreen palauttama id.
+            $this->id = $kysely->fetchColumn();
+        }
+    }
+    
     public function poistaKayttaja($id) {
         $sql = "delete from Kayttaja where id = ?";
         require_once "tietokantayhteys.php";

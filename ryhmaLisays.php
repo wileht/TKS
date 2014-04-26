@@ -6,21 +6,26 @@ require_once 'libs/models/Kayttajaryhma.php';
 $uusiRyhma = new Kayttajaryhma();
 $uusiRyhma->setNimi($_POST['nimi']);
 
-//Mikäli viesti on kelvollinen, se lisätään tietokantaan
-if ($uusiRyhma->onkoKelvollinen()) {
-    $uusiRyhma->lisaaKantaan();
-
-    $_SESSION['ilmoitus'] = "Käyttäjäryhmä luotu.";
-    header('Location: ryhmat.php');
+if (!$uusiRyhma->onkoNimiVapaa()) {
+    $_SESSION['ilmoitus'] = "Antamasi nimi on jo käytössä.";
+    header('Location: uusiRyhma.php');
 } else {
-    //Mikäli viesti ei ole kelvollinen, käyttäjä palautetaan kirjoitusnäkymään
-    $virheet = $uusiRyhma->getVirheet();
+//Mikäli viesti on kelvollinen, se lisätään tietokantaan
+    if ($uusiRyhma->onkoKelvollinen()) {
+        $uusiRyhma->lisaaKantaan();
 
-    if (isset($_POST["nimi"])) {
-        $nimi = $_POST["nimi"];
+        $_SESSION['ilmoitus'] = "Käyttäjäryhmä luotu.";
+        header('Location: ryhmat.php');
     } else {
-        $nimi = null;
-    }
+        //Mikäli viesti ei ole kelvollinen, käyttäjä palautetaan kirjoitusnäkymään
+        $virheet = $uusiRyhma->getVirheet();
 
-    naytaNakyma('uusiRyhma.php', array('nimi' => $nimi, 'virheet' => $virheet));
+        if (isset($_POST["nimi"])) {
+            $nimi = $_POST["nimi"];
+        } else {
+            $nimi = null;
+        }
+
+        naytaNakyma('uusiRyhma.php', array('nimi' => $nimi, 'virheet' => $virheet));
+    }
 }

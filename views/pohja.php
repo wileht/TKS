@@ -18,12 +18,15 @@ if (!onkoKirjautunut() && $sivu != "kirjautuminen.php" && $sivu != "rekisteroi.p
         <link href="js/jquery-2.1.0.js" rel="stylesheet">
     </head>
     <body>
-        <ul class="nav nav-tabs">
-            <li><a href="etusivu.php">Etusivu</a></li>
-            <li><a href="haku.php">Haku</a></li>
-            <li><a href="yllapito.php">Ylläpito</a></li>
-            <?php if (onkoKirjautunut()): ?><li><a href="uloskirjaus.php">Kirjaudu ulos</a></li><?php endif; ?>
-        </ul>
+        <?php if (onkoKirjautunut()): ?>
+            <ul class="nav nav-tabs">
+                <li><a href="etusivu.php">Etusivu</a></li>
+                <li><a href="haku.php">Haku</a></li>
+                <li><a href="vaihdaSalasana.php">Vaihda salasana</a></li>
+                <?php if (onkoYllapitaja()): ?><li><a href="yllapito.php">Ylläpito</a></li><?php endif; ?>
+                <li><a href="uloskirjaus.php">Kirjaudu ulos</a></li>
+            </ul>
+        <?php endif; ?>
         <div class="content">
             <?php if (!empty($_SESSION['ilmoitus'])): ?>
                 <div class="alert alert-danger">

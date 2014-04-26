@@ -12,16 +12,11 @@
             </div>
         </div>
         <div class="container col-md-7">
-            <h1>Lisää uusi alue</h1>
+            <h1>Muokkaa keskustelualueen käyttöoikeuksia</h1>
             <br>
-            <form class="form-horizontal" role="form" action="alueLisays.php" method="POST">
-                <div class="form-group">
-                    <label for="nimi" class="col-sm-2 control-label">Nimi</label>
-                    <div class="col-sm-5">
-                        <input type="text" class="form-control" id="nimi" name="nimi" placeholder="Nimi"
-                               value="<?php echo htmlspecialchars($data->nimi); ?>">
-                    </div>
-                </div>
+            <form class="form-horizontal" role="form" action="alueMuokkaus.php" method="POST">
+                <h5>Keskustelualue: <?php echo $data->nimi; ?></h5>
+                <br>
                 <div class="form-group">
                     <label for="inputText2" class="col-sm-2 control-label">Käyttäjäryhmät</label>
                     <div class="col-sm-5">
@@ -38,7 +33,7 @@
                         </table>
                     </div>
                     <p>Huom: Käyttäjäryhmien valitseminen tarkoittaa, että VAIN valitut käyttäjäryhmät voivat lukea aluetta.
-                    Mikäli haluat alueen olevan kaikille avoin, jätä kaikki valinnat tyhjiksi. Ylläpitäjät voivat lukea kaikkia alueita.</p>
+                        Mikäli haluat alueen olevan kaikille avoin, jätä kaikki valinnat tyhjiksi. Ylläpitäjät voivat lukea kaikkia alueita.</p>
                 </div>
                 <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-10">

@@ -14,9 +14,6 @@ class Ryhmankayttajat {
     
     public function onkoYllapitaja($kayttajaId) {
         //Tarkistetaan onko annettu käyttäjä ylläpitäjä (ts. Yllapitajat-käyttäjäryhmän jäsen)
-        if (!onkoKirjautunut()) {
-            return false;
-        }
         
         require_once "tietokantayhteys.php";
         require_once "libs/models/Kayttajaryhma.php";
@@ -53,6 +50,19 @@ class Ryhmankayttajat {
             $this->id = $kysely->fetchColumn();
         }
         return $ok;
+    }
+    
+    public function etsiKayttajanRyhmatVainId($kayttaja) {
+        $sql = "SELECT kayttajaryhma from Ryhmankayttajat where kayttaja = ?";
+        require_once "tietokantayhteys.php";
+        $kysely = getTietokantayhteys()->prepare($sql);
+        $kysely->execute(array($kayttaja));
+
+        $a = array();
+        foreach ($kysely->fetchAll(PDO::FETCH_OBJ) as $kayttajaryhma) {
+            $a[] = $kayttajaryhma->kayttajaryhma;
+        }
+        return $a;
     }
     
     public function etsiRyhmanKayttajat($ryhmaId) {
