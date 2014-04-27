@@ -49,7 +49,7 @@ class Kayttaja {
             return $tulos->nimi;
         }
     }
-    
+
     public function onkoTunnusVapaa($kayttaja) {
         //Tarkistetaan onko annettu käyttäjätunnus vapaa
         $sql = "SELECT id from kayttaja where nimi = ? LIMIT 1";
@@ -64,8 +64,9 @@ class Kayttaja {
             return false;
         }
     }
-    
+
     public function etsiKaikki() {
+        //Etsitään kaikki käyttäjät
         $sql = "SELECT id, nimi from Kayttaja";
         require_once "tietokantayhteys.php";
         $kysely = getTietokantayhteys()->prepare($sql);
@@ -80,7 +81,7 @@ class Kayttaja {
         }
         return $a;
     }
-    
+
     public function lisaaKantaan() {
         //Lisätään käyttäjä tietokantaan ja palautetaan tämän tietokannassa saama id
         $sql = "INSERT INTO Kayttaja VALUES(default,?,?) RETURNING id";
@@ -94,27 +95,30 @@ class Kayttaja {
         }
         return $ok;
     }
-    
+
     public function montakoViestia() {
+        //Lasketaan käyttäjän kirjoittamien aloitusviestien ja vastineiden yhteenlaskettu lukumäärä
         require_once 'libs/models/Aloitusviesti.php';
         require_once 'libs/models/Vastine.php';
-        
+
         $aloitusViesteja = Aloitusviesti::kayttajanViesteja($this->getId());
         $vastineita = Vastine::kayttajanViesteja($this->getId());
-        
+
         return $aloitusViesteja + $vastineita;
     }
-    
+
     public function viimeisinViesti() {
+        //Etsitään käyttäjän viimeisimmän viestin (aloitusviesti tai vastine) päivämäärä
         require_once 'libs/models/Aloitusviesti.php';
         require_once 'libs/models/Vastine.php';
-        
+
         $viimeisinAloitusviesti = Aloitusviesti::kayttajanViimeisinViestiPvm($this->getId());
         $viimeisinVastine = Vastine::kayttajanViimeisinViestiPvm($this->getId());
         return max($viimeisinAloitusviesti, $viimeisinVastine);
     }
-    
+
     public function muutaSalasanaa($kayttaja, $salasana) {
+        //Muutetaan annetun käyttäjän salasanaa
         $sql = "update Kayttaja set salasana = ? where id = ?";
         require_once "tietokantayhteys.php";
         $kysely = getTietokantayhteys()->prepare($sql);
@@ -125,27 +129,29 @@ class Kayttaja {
             $this->id = $kysely->fetchColumn();
         }
     }
-    
+
     public function poistaKayttaja($id) {
+        //Poistetaan annettu käyttäjä tietokannasta
         $sql = "delete from Kayttaja where id = ?";
         require_once "tietokantayhteys.php";
         $kysely = getTietokantayhteys()->prepare($sql);
 
         $ok = $kysely->execute(array($id));
     }
-    
+
     public function onkoKelvollinen() {
+        //Palautetaan mahdolliset käyttäjän luomisen/muokkaamisen aikana tapahtuneet virheet
         return empty($this->virheet);
     }
-    
+
     public function getVirheet() {
         return $this->virheet;
     }
-    
+
     public function setVirheet($virhe) {
         $this->virheet = $virhe;
     }
-    
+
     public function getId() {
         return $this->id;
     }
@@ -166,8 +172,7 @@ class Kayttaja {
             $this->virheet['nimi'] = "Käyttäjätunnus ei saa olla tyhjä.";
         } elseif (strlen($this->nimi) > 30) {
             $this->virheet['nimi'] = "Käyttäjätunnuksesi on liian pitkä.";
-        }
-        else {
+        } else {
             unset($this->virheet['nimi']);
         }
     }
@@ -178,14 +183,13 @@ class Kayttaja {
 
     public function setSalasana($salasana) {
         $this->salasana = $salasana;
-        
+
         //Salasana ei saa olla tyhjä eikä liian pitkä
         if (trim($this->salasana) == '') {
             $this->virheet['salasana'] = "Salasana ei saa olla tyhjä.";
         } elseif (strlen($this->salasana) > 20) {
             $this->virheet['salasana'] = "Salasanasi on liian pitkä.";
-        }
-        else {
+        } else {
             unset($this->virheet['salasana']);
         }
     }

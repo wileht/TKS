@@ -18,7 +18,7 @@
       <data key="d4"/>
       <data key="d6">
         <y:UMLClassNode>
-          <y:Geometry height="93.0" width="154.0" x="198.0" y="154.78097731239092"/>
+          <y:Geometry height="121.87261146496814" width="154.0" x="423.0" y="189.06369426751593"/>
           <y:Fill color="#FFCC00" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.92626953125" modelName="custom" textColor="#000000" visible="true" width="81.29541015625" x="36.352294921875" y="3.0">Aloitusviesti<y:LabelModel>
@@ -32,7 +32,9 @@
             <y:AttributeLabel>&lt;&lt;id&gt;&gt; id (int)
 &lt;&lt;fk&gt;&gt; Kirjoittaja (int)
 &lt;&lt;fk&gt;&gt; Keskustelualue (int)
-Sisalto (String)</y:AttributeLabel>
+Otsikko (String)
+Sisalto (String)
+Paivamaara (timestamp)</y:AttributeLabel>
             <y:MethodLabel/>
           </y:UML>
         </y:UMLClassNode>
@@ -42,7 +44,7 @@ Sisalto (String)</y:AttributeLabel>
       <data key="d4"/>
       <data key="d6">
         <y:UMLClassNode>
-          <y:Geometry height="108.0" width="154.0" x="448.0" y="147.28097731239092"/>
+          <y:Geometry height="121.87261146496814" width="154.0" x="423.0" y="-10.936305732484072"/>
           <y:Fill color="#FFCC00" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.92626953125" modelName="custom" textColor="#000000" visible="true" width="50.24267578125" x="51.878662109375" y="3.0">Vastine<y:LabelModel>
@@ -57,7 +59,8 @@ Sisalto (String)</y:AttributeLabel>
 &lt;&lt;fk&gt;&gt; Kirjoittaja (int)
 &lt;&lt;fk&gt;&gt; Keskustelualue (int)
 &lt;&lt;fk&gt;&gt; Aloitusviesti (int)
-Sisalto (String)</y:AttributeLabel>
+Sisalto (String)
+Paivamaara (timestamp)</y:AttributeLabel>
             <y:MethodLabel/>
           </y:UML>
         </y:UMLClassNode>
@@ -67,7 +70,7 @@ Sisalto (String)</y:AttributeLabel>
       <data key="d4"/>
       <data key="d6">
         <y:UMLClassNode>
-          <y:Geometry height="79.0" width="100.0" x="225.0" y="335.5"/>
+          <y:Geometry height="79.0" width="100.0" x="225.0" y="210.5"/>
           <y:Fill color="#FFCC00" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.92626953125" modelName="custom" textColor="#000000" visible="true" width="54.578125" x="22.7109375" y="3.0">Kayttaja<y:LabelModel>
@@ -90,7 +93,7 @@ Salasana (String)</y:AttributeLabel>
       <data key="d4"/>
       <data key="d6">
         <y:UMLClassNode>
-          <y:Geometry height="64.0" width="100.0" x="225.0" y="-5.719022687609083"/>
+          <y:Geometry height="64.0" width="100.0" x="650.0" y="218.0"/>
           <y:Fill color="#FFCC00" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.92626953125" modelName="custom" textColor="#000000" visible="true" width="99.37353515625" x="0.313232421875" y="3.0">Keskustelualue<y:LabelModel>
@@ -112,7 +115,7 @@ Nimi (String)</y:AttributeLabel>
       <data key="d4"/>
       <data key="d6">
         <y:UMLClassNode>
-          <y:Geometry height="79.0" width="154.0" x="198.0" y="478.0"/>
+          <y:Geometry height="79.0" width="154.0" x="-2.0" y="210.5"/>
           <y:Fill color="#FFCC00" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.92626953125" modelName="custom" textColor="#000000" visible="true" width="110.1962890625" x="21.90185546875" y="3.0">RyhmanKayttajat<y:LabelModel>
@@ -135,7 +138,7 @@ Nimi (String)</y:AttributeLabel>
       <data key="d4"/>
       <data key="d6">
         <y:UMLClassNode>
-          <y:Geometry height="64.0" width="100.0" x="225.0" y="635.5"/>
+          <y:Geometry height="64.0" width="100.0" x="25.0" y="468.0"/>
           <y:Fill color="#FFCC00" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.92626953125" modelName="custom" textColor="#000000" visible="true" width="93.59716796875" x="3.201416015625" y="3.0">Kayttajaryhma<y:LabelModel>
@@ -157,7 +160,7 @@ Nimi (String)</y:AttributeLabel>
       <data key="d4"/>
       <data key="d6">
         <y:UMLClassNode>
-          <y:Geometry height="78.99999999999997" width="111.2726003490402" x="-5.636300174520102" y="161.78097731239092"/>
+          <y:Geometry height="78.99999999999997" width="111.2726003490402" x="219.3636998254799" y="385.5"/>
           <y:Fill color="#FFCC00" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.92626953125" modelName="custom" textColor="#000000" visible="true" width="103.6962890625" x="3.788155643270102" y="3.0">ViestinLukeneet<y:LabelModel>
@@ -176,10 +179,34 @@ Nimi (String)</y:AttributeLabel>
         </y:UMLClassNode>
       </data>
     </node>
+    <node id="n7">
+      <data key="d4"/>
+      <data key="d5"/>
+      <data key="d6">
+        <y:UMLClassNode>
+          <y:Geometry height="79.0" width="170.51910828025478" x="614.7404458598726" y="460.5"/>
+          <y:Fill color="#FFCC00" transparent="false"/>
+          <y:BorderStyle color="#000000" type="line" width="1.0"/>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.92626953125" modelName="custom" textColor="#000000" visible="true" width="162.2216796875" x="4.148714296377392" y="3.0">RyhmanKeskustelualueet<y:LabelModel>
+              <y:SmartNodeLabelModel distance="4.0"/>
+            </y:LabelModel>
+            <y:ModelParameter>
+              <y:SmartNodeLabelModelParameter labelRatioX="0.0" labelRatioY="0.0" nodeRatioX="0.0" nodeRatioY="-0.03703090122767855" offsetX="0.0" offsetY="0.0" upX="0.0" upY="-1.0"/>
+            </y:ModelParameter>
+          </y:NodeLabel>
+          <y:UML clipContent="true" constraint="" omitDetails="false" stereotype="" use3DEffect="true">
+            <y:AttributeLabel>&lt;&lt;id&gt;&gt; id (int)
+&lt;&lt;fk&gt;&gt; Kayttajaryhma (int)
+&lt;&lt;fk&gt;&gt; Keskustelualue (int)</y:AttributeLabel>
+            <y:MethodLabel/>
+          </y:UML>
+        </y:UMLClassNode>
+      </data>
+    </node>
     <edge id="e0" source="n0" target="n2">
       <data key="d10">
         <y:PolyLineEdge>
-          <y:Path sx="0.0" sy="46.5" tx="0.0" ty="-39.5"/>
+          <y:Path sx="-77.0" sy="0.0" tx="50.0" ty="0.0"/>
           <y:LineStyle color="#000000" type="line" width="1.0"/>
           <y:Arrows source="none" target="standard"/>
           <y:BendStyle smoothed="false"/>
@@ -189,7 +216,7 @@ Nimi (String)</y:AttributeLabel>
     <edge id="e1" source="n0" target="n3">
       <data key="d10">
         <y:PolyLineEdge>
-          <y:Path sx="0.0" sy="-46.5" tx="0.0" ty="32.0"/>
+          <y:Path sx="77.0" sy="0.0" tx="-50.0" ty="0.0"/>
           <y:LineStyle color="#000000" type="line" width="1.0"/>
           <y:Arrows source="none" target="standard"/>
           <y:BendStyle smoothed="false"/>
@@ -199,8 +226,8 @@ Nimi (String)</y:AttributeLabel>
     <edge id="e2" source="n1" target="n2">
       <data key="d10">
         <y:PolyLineEdge>
-          <y:Path sx="0.0" sy="54.0" tx="50.0" ty="0.0">
-            <y:Point x="525.0" y="375.0"/>
+          <y:Path sx="-77.0" sy="0.0" tx="0.0" ty="-39.5">
+            <y:Point x="275.0" y="50.0"/>
           </y:Path>
           <y:LineStyle color="#000000" type="line" width="1.0"/>
           <y:Arrows source="none" target="standard"/>
@@ -211,8 +238,8 @@ Nimi (String)</y:AttributeLabel>
     <edge id="e3" source="n1" target="n3">
       <data key="d10">
         <y:PolyLineEdge>
-          <y:Path sx="0.0" sy="-54.0" tx="50.0" ty="0.0">
-            <y:Point x="525.0" y="26.280977312390917"/>
+          <y:Path sx="77.0" sy="0.0" tx="0.0" ty="-32.0">
+            <y:Point x="700.0" y="50.0"/>
           </y:Path>
           <y:LineStyle color="#000000" type="line" width="1.0"/>
           <y:Arrows source="none" target="standard"/>
@@ -223,7 +250,7 @@ Nimi (String)</y:AttributeLabel>
     <edge id="e4" source="n1" target="n0">
       <data key="d10">
         <y:PolyLineEdge>
-          <y:Path sx="-77.0" sy="0.0" tx="77.0" ty="0.0"/>
+          <y:Path sx="0.0" sy="60.93630573248407" tx="0.0" ty="-60.93630573248407"/>
           <y:LineStyle color="#000000" type="line" width="1.0"/>
           <y:Arrows source="none" target="standard"/>
           <y:BendStyle smoothed="false"/>
@@ -233,7 +260,7 @@ Nimi (String)</y:AttributeLabel>
     <edge id="e5" source="n4" target="n2">
       <data key="d10">
         <y:PolyLineEdge>
-          <y:Path sx="0.0" sy="-39.5" tx="0.0" ty="39.5"/>
+          <y:Path sx="77.0" sy="0.0" tx="-50.0" ty="0.0"/>
           <y:LineStyle color="#000000" type="line" width="1.0"/>
           <y:Arrows source="none" target="standard"/>
           <y:BendStyle smoothed="false"/>
@@ -253,7 +280,9 @@ Nimi (String)</y:AttributeLabel>
     <edge id="e7" source="n6" target="n0">
       <data key="d10">
         <y:PolyLineEdge>
-          <y:Path sx="55.6363001745201" sy="0.0" tx="-77.0" ty="0.0"/>
+          <y:Path sx="55.6363001745201" sy="0.0" tx="0.0" ty="60.93630573248407">
+            <y:Point x="500.0" y="425.0"/>
+          </y:Path>
           <y:LineStyle color="#000000" type="line" width="1.0"/>
           <y:Arrows source="none" target="standard"/>
           <y:BendStyle smoothed="false"/>
@@ -263,9 +292,29 @@ Nimi (String)</y:AttributeLabel>
     <edge id="e8" source="n6" target="n2">
       <data key="d10">
         <y:PolyLineEdge>
-          <y:Path sx="0.0" sy="39.5" tx="-50.0" ty="0.0">
-            <y:Point x="50.0" y="375.0"/>
-          </y:Path>
+          <y:Path sx="0.0" sy="-39.5" tx="0.0" ty="39.5"/>
+          <y:LineStyle color="#000000" type="line" width="1.0"/>
+          <y:Arrows source="none" target="standard"/>
+          <y:BendStyle smoothed="false"/>
+        </y:PolyLineEdge>
+      </data>
+    </edge>
+    <edge id="e9" source="n7" target="n3">
+      <data key="d9"/>
+      <data key="d10">
+        <y:PolyLineEdge>
+          <y:Path sx="0.0" sy="-39.5" tx="0.0" ty="32.0"/>
+          <y:LineStyle color="#000000" type="line" width="1.0"/>
+          <y:Arrows source="none" target="standard"/>
+          <y:BendStyle smoothed="false"/>
+        </y:PolyLineEdge>
+      </data>
+    </edge>
+    <edge id="e10" source="n7" target="n5">
+      <data key="d9"/>
+      <data key="d10">
+        <y:PolyLineEdge>
+          <y:Path sx="-85.25955414012742" sy="0.0" tx="50.0" ty="0.0"/>
           <y:LineStyle color="#000000" type="line" width="1.0"/>
           <y:Arrows source="none" target="standard"/>
           <y:BendStyle smoothed="false"/>

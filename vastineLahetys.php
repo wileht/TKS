@@ -18,7 +18,7 @@ $uusiViesti->setPaivamaara(pvmNyt());
 if ($uusiViesti->onkoKelvollinen()) {
     $uusiViesti->lisaaKantaan();
     $_SESSION['ilmoitus'] = "Viesti lähetetty.";
-    header('Location: viesti.php?id='.$_GET['id'].'&viesti=' . $_GET['viesti']);
+    header('Location: viesti.php?id=' . $_GET['id'] . '&viesti=' . $_GET['viesti']);
 } else {
     //Mikäli luotu vastine ei ole kelvollinen, käyttäjälle näytetään kirjoitusnäkymä virheellisine syötteineen
     $virheet = $uusiViesti->getVirheet();

@@ -3,6 +3,8 @@
 require_once 'libs/funktiot.php';
 require_once 'libs/models/Ryhmankayttajat.php';
 session_start();
+
+//Vain ylläpitäjä voi poistaa käyttäjiä käyttäjäryhmistä
 if (onkoYllapitaja()) {
     if (!empty($_POST['checklist'])) {
         foreach ($_POST['checklist'] as $check) {

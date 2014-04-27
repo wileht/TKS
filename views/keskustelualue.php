@@ -21,7 +21,7 @@
                         <a href="viesti.php?id=<?php echo $alueId; ?>&viesti=<?php echo $viesti->getId() ?>"><?php echo htmlspecialchars($viesti->getOtsikko()) ?></td>
                     <td><?php echo $viesti->getKirjoittajaNimi(); ?></td>
                     <td><?php echo $viesti->getVastineita(); ?></td>
-                    <td><?php echo $viesti->etsiUusimmanVastineenPvm(); ?></td>                        
+                    <td><?php echo date("d.m.Y H:m", strtotime($viesti->etsiUusimmanVastineenPvm())); ?></td>                        
                 </tr>
             <?php endforeach; ?>
         </tbody>

@@ -1,11 +1,12 @@
 <?php
+
 require_once 'libs/funktiot.php';
 require_once 'libs/models/Aloitusviesti.php';
 
 //Vain ylläpitäjä voi poistaa aloitusviestejä, koska aloitusviestin poistaminen poistaa myös sen vastineet
 if (onkoYllapitaja()) {
     Aloitusviesti::poistaAloitusviesti($_GET['viesti']);
-    
+
     session_start();
     $_SESSION['ilmoitus'] = "Viesti poistettu.";
     header('Location: keskustelualue.php?id=' . $_GET['id']);

@@ -2,6 +2,7 @@
 
 require_once 'libs/funktiot.php';
 
+//Tarkisteaan onko käyttäjällä lukuoikeus tähän sivuun
 if (onkoKayttajallaOikeuttaAlueeseen($_GET['id'])) {
     $viestiId = (int) $_GET['viesti'];
     kayttajaLukenut($viestiId);
@@ -29,9 +30,11 @@ if (onkoKayttajallaOikeuttaAlueeseen($_GET['id'])) {
         ));
     }
 
+    //Etsitään haluttu määrä aloitusviestin vastineita
     require_once 'libs/models/Vastine.php';
     $vastineet = Vastine::etsiVastineet($viestiId, $montako, $sivu);
     $vastineita = Vastine::lukumaara($viestiId);
+
     if ($vastineita == 0) {
         $sivuja = 1;
     } else {

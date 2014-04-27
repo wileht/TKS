@@ -40,6 +40,7 @@ class Aloitusviesti {
             $a[] = $uusi;
         }
 
+        //Järjestetään vastineet päivämäärän mukaan nousevassa järjestyksessä
         $b = array();
         require_once 'libs/models/Vastine.php';
         foreach ($a as $viesti) {
@@ -54,7 +55,7 @@ class Aloitusviesti {
         krsort($b);
         return array_values($b);
     }
-    
+
     public function etsiAlueenKaikkiViestitId($alue) {
         //Etsitään annetun keskustelualueen halutut viestit ja tehdään niille Aloitusviesti-luokan ilmentymät
         $sql = "SELECT id from Aloitusviesti where keskustelualue = ?";
@@ -120,13 +121,15 @@ class Aloitusviesti {
         require_once 'libs/models/Kayttaja.php';
         return Kayttaja::etsiNimiIdlla($this->kirjoittaja);
     }
-    
+
     public function getKeskustelualueNimi() {
+        //Etsitään viestin keskustelualueen nimi
         require_once 'libs/models/Keskustelualue.php';
         return Keskustelualue::etsiNimiIdlla($this->keskustelualue);
     }
 
     public function onkoKelvollinen() {
+        //Palautetaan mahdolliset viestin luomisen tai muokkaamisen aikana syntyneet virheet
         return empty($this->virheet);
     }
 
@@ -153,23 +156,28 @@ class Aloitusviesti {
     }
 
     public function getVastineita() {
+        //Palautetaan aloitusviestin vastineiden lukumäärä
         require_once 'libs/models/Vastine.php';
         return Vastine::lukumaara($this->id);
     }
 
     public function etsiUusimmanVastineenPvm() {
+        //Etsitään aloitusviestin uusimman vastineen päivämäärä
         require_once 'libs/models/Vastine.php';
         $uusinVastine = Vastine::etsiUusimmanVastineenPvm($this->id);
 
         if ($uusinVastine == null) {
+            //Jos aloitusviestillä ei ole vastineita, uusin päivämäärä on aloitusviestin oma päivämäärä
             return $this->paivamaara;
         } else {
             return $uusinVastine;
         }
     }
-    
+
     public function etsiHakusanalla($sana) {
-        $sana = "%".$sana."%";
+        //Hyvin yksinkertainen hakutoiminto, jossa aloitusviestin sisällöstä ja otsikosta etsitään hakusanaa muistuttavia
+        //sanoja
+        $sana = "%" . $sana . "%";
         $sql = "SELECT id, kirjoittaja, keskustelualue, sisalto, otsikko, paivamaara from Aloitusviesti where sisalto ILIKE ? or
             otsikko ILIKE ? ORDER by paivamaara";
         require_once "tietokantayhteys.php";
@@ -178,6 +186,7 @@ class Aloitusviesti {
 
         $a = array();
         foreach ($kysely->fetchAll(PDO::FETCH_OBJ) as $viesti) {
+            //Luodaan löydetyille viesteille Aloitusviesti-luokan ilmentymät
             $uusi = new Aloitusviesti();
             $uusi->setId($viesti->id);
             $uusi->setKirjoittaja($viesti->kirjoittaja);
@@ -189,22 +198,23 @@ class Aloitusviesti {
         }
         return $a;
     }
-    
+
     public static function kayttajanViesteja($id) {
-        //Lasketaan ja palautetaan annetun keskustelualueen viestien määrä
+        //Lasketaan ja palautetaan annetun käyttäjän kirjoittamien aloitusviestien määrä
         $sql = "SELECT count(*) FROM Aloitusviesti where kirjoittaja = ?";
         $kysely = getTietokantayhteys()->prepare($sql);
         $kysely->execute(array($id));
         return $kysely->fetchColumn();
     }
-    
+
     public function kayttajanViimeisinViestiPvm($id) {
+        //Etsitään annetun käyttäjän viimeisimmän aloitusviestin päivämäärä
         $sql = "SELECT max(paivamaara) FROM Aloitusviesti where kirjoittaja = ?";
         $kysely = getTietokantayhteys()->prepare($sql);
         $kysely->execute(array($id));
         return $kysely->fetchColumn();
     }
-    
+
     public function getAloitusviesti() {
         return $this->id;
     }

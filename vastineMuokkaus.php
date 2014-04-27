@@ -1,4 +1,5 @@
 <?php
+
 session_start();
 require_once "libs/models/Vastine.php";
 require_once "libs/models/Kayttaja.php";
@@ -12,9 +13,10 @@ $uusiViesti->setSisalto($_POST['sisalto']);
 $uusiViesti->setAloitusviesti($_GET['viesti']);
 
 if ($uusiViesti->onkoKelvollinen()) {
+    //Mikäli vastineen muokkauksessa ei ilmennyt ongelmia, muokkaus suoritetaan
     $uusiViesti->muokkaaVastinetta($_GET['vastine']);
     $_SESSION['ilmoitus'] = "Muokkaus onnistui.";
-    header('Location: viesti.php?id='.$_GET['id'].'&viesti=' . $_GET['viesti']);
+    header('Location: viesti.php?id=' . $_GET['id'] . '&viesti=' . $_GET['viesti']);
 } else {
     $virheet = $uusiViesti->getVirheet();
 

@@ -1,4 +1,5 @@
 <?php
+
 require_once "libs/funktiot.php";
 
 //Rekisteröitymistä ei hyväksytä, jos annettu käyttäjätunnus tai salasana on tyhjä

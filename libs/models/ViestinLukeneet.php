@@ -1,7 +1,7 @@
 <?php
 
 class ViestinLukeneet {
-    
+
     private $id;
     private $aloitusviesti;
     private $kayttaja;
@@ -11,22 +11,23 @@ class ViestinLukeneet {
         $this->aloitusviesti = $aloitusviesti;
         $this->kayttaja = $kayttaja;
     }
-    
+
     public function lisaaKantaan() {
+        //Lisätään tietokantaan uusi rivi, eli aloitusviestin lukeneiden listaan lisätään uusi käyttäjä
         $sql = "INSERT INTO ViestinLukeneet VALUES(default,?,?) RETURNING id";
         require_once "tietokantayhteys.php";
         $kysely = getTietokantayhteys()->prepare($sql);
 
-        $ok = $kysely->execute(array($this->getAloitusviesti(),$this->getKayttaja()));
+        $ok = $kysely->execute(array($this->getAloitusviesti(), $this->getKayttaja()));
         if ($ok != null) {
             //Haetaan RETURNING-määreen palauttama id.
             $this->id = $kysely->fetchColumn();
         }
         return $ok;
     }
-    
+
     public function kaikkiViestinLukeneet($viesti) {
-        //Etsitään ja palautetaan kaikki annetun viestin lukeneet käyttäjät
+        //Etsitään ja palautetaan kaikki annetun aloitusviestin lukeneet käyttäjät
         $sql = "SELECT kayttaja from ViestinLukeneet where aloitusviesti = ?";
         require_once "tietokantayhteys.php";
         $kysely = getTietokantayhteys()->prepare($sql);
@@ -43,8 +44,9 @@ class ViestinLukeneet {
         }
         return $a;
     }
-    
+
     public function onkoLukenut($viesti, $kayttaja) {
+        //Katsotaan onko käyttäjä lukenut annetun aloitusviestin
         $sql = "SELECT id from ViestinLukeneet where aloitusviesti = ? AND kayttaja = ?";
         require_once "tietokantayhteys.php";
         $kysely = getTietokantayhteys()->prepare($sql);
@@ -57,28 +59,29 @@ class ViestinLukeneet {
             return true;
         }
     }
-    
+
     public function getKayttaja() {
         return $this->kayttaja;
     }
-    
+
     public function setKayttaja($kayttaja) {
         $this->kayttaja = $kayttaja;
     }
-    
+
     public function getAloitusviesti() {
         return $this->aloitusviesti;
     }
-    
+
     public function setAloitusviesti($viesti) {
         $this->aloitusviesti = $viesti;
     }
-    
+
     public function getId() {
         return $this->id;
     }
-    
+
     public function setId($id) {
         $this->id = $id;
     }
+
 }

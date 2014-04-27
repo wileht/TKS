@@ -14,12 +14,12 @@
                        value="<?php echo htmlspecialchars($data->otsikko); ?>">
             </div>
         </div>
-            <div class="form-group">
-                <label for="sisalto" class="col-sm-1 control-label">Viesti</label>
-                <div class="col-sm-10">
-                    <textarea class="form-control" rows="15" id="sisalto" name="sisalto"><?php echo htmlspecialchars($data->sisalto); ?></textarea>
-                </div>
+        <div class="form-group">
+            <label for="sisalto" class="col-sm-1 control-label">Viesti</label>
+            <div class="col-sm-10">
+                <textarea class="form-control" rows="15" id="sisalto" name="sisalto"><?php echo htmlspecialchars($data->sisalto); ?></textarea>
             </div>
+        </div>
         <br>
         <p class="text-center"><button type="submit" class="btn btn-default">Lähetä</button></p>
     </form>

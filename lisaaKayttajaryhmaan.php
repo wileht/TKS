@@ -5,6 +5,7 @@ require_once 'libs/funktiot.php';
 if (onkoYllapitaja()) {
     require_once 'libs/models/Ryhmankayttajat.php';
 
+    //Lisätään käyttäjä haluttuihin käyttäjäryhmiin
     if (!empty($_POST['checklist'])) {
         foreach ($_POST['checklist'] as $check) {
             $uusiRyhmaKayttaja = new RyhmanKayttajat();

@@ -31,9 +31,9 @@
 
 \chapter{Johdanto}\label{johd}
 
-Työssä toteutetaan PHP-kielellä keskustelufoorumi, jonka käyttämiseen (siis pelkkään lukemiseenkin) tarvitaan käyttäjätunnus. Foorumilla on yksi ylläpitäjä, joka voi tavallisen käyttäjän oikeuksien lisäksi myös esimerkiksi poistaa viestejä ja lisätä viesteille aihekategorioita.
+Työssä toteutetaan PHP-kielellä keskustelufoorumi, jonka käyttämiseen (siis pelkkään lukemiseenkin) tarvitaan käyttäjätunnus. Lisäksi yksittäisille keskustelualueille voi asettaa lukuoikeusrajoituksia, jolloin vain tiettyihin käyttäjäryhmiin kuuluvat käyttäjät voivat lukea niitä. Foorumiln ylläpitäjät voivat tavallisen käyttäjän oikeuksien lisäksi myös esimerkiksi poistaa viestejä ja lisätä aihekategorioita ja käyttäryhmiä.
 
-Foorumi käyttää PostgreSQL-tietokantaa.
+Foorumi käyttää PostgreSQL-tietokantaa. Tietokannan vaihtaminen edellyttää ohjelmakoodin muokkaamista.
 
 \chapter{Yleiskuva järjestelmästä}
 
@@ -95,7 +95,8 @@ Foorumin \emph{ylläpitäjällä} on lisäksi oikeus mm. poistaa viestejä ja m�
 \begin{tabular}{| l | l | l | l |}
 \hline
 \textbf{Attribuutti} & \textbf{Arvojoukko} & \textbf{Kuvaus} \\ \hline
-Nimi & Merkkijono, max 20 merkkiä & Käyttäjäryhmän nimi \\ \hline
+Tunnus & Kokonaisluku & Käyttäjäryhmän yksilöivä tunnus \\ \hline
+Nimi & Merkkijono, max 30 merkkiä & Käyttäjäryhmän nimi \\ \hline
 \end{tabular}
 \end{center}
 \ \\
@@ -106,11 +107,12 @@ Nimi & Merkkijono, max 20 merkkiä & Käyttäjäryhmän nimi \\ \hline
 \begin{tabular}{| l | l | l | l |}
 \hline
 \textbf{Attribuutti} & \textbf{Arvojoukko} & \textbf{Kuvaus} \\ \hline
-Käyttäjätunnus & Merkkijono, max 20 merkkiä & Käyttäjän käyttäjätunnus \\ \hline
+Tunnus & Kokonaisluku & Käyttäjän yksilöivä tunnus \\ \hline
+Käyttäjätunnus & Merkkijono, max 30 merkkiä & Käyttäjän käyttäjätunnus \\ \hline
 Salasana & Merkkijono, max 20 merkkiä & Käyttäjän salasana (selkokielinen) \\ \hline
 \end{tabular}
 \end{center}
-\ \\
+\ \\ \\
 
  \noindent \textbf{Aloitusviesti}
 
@@ -119,8 +121,11 @@ Salasana & Merkkijono, max 20 merkkiä & Käyttäjän salasana (selkokielinen) \
 \hline
 \textbf{Attribuutti} & \textbf{Arvojoukko} & \textbf{Kuvaus} \\ \hline
 Tunnus & Kokonaisluku & Viestin yksilöivä tunnus \\ \hline
-Kirjoittaja & Merkkijono, max 20 merkkiä & Viestin kirjoittaneen käyttäjän käyttäjätunnus \\ \hline
+Kirjoittaja & Kokonaisluku & Viestin kirjoittaneen käyttäjän id \\ \hline
 Keskustelualue & Merkkijono, max 50 merkkiä & Mihin keskustelualueeseen viesti kuuluu \\ \hline
+Sisältö & Merkkijono, max 65 535 merkkiä & Viestin sisältö \\ \hline
+Otsikko & Merkkijono, max 30 merkkiä & Viestin otsikko \\ \hline
+Päivämäärä & Päivämäärä & Viestin kirjoituspäivämäärä \\ \hline
 \end{tabular}
 \end{center}
 \ \\
@@ -132,11 +137,13 @@ Keskustelualue & Merkkijono, max 50 merkkiä & Mihin keskustelualueeseen viesti 
 \hline
 \textbf{Attribuutti} & \textbf{Arvojoukko} & \textbf{Kuvaus} \\ \hline
 Tunnus & Kokonaisluku & Vastineen yksilöivä tunnus \\ \hline
-Kirjoittaja & Merkkijono, max 20 merkkiä & Viestin kirjoittaneen käyttäjän käyttäjätunnus \\ \hline
+Kirjoittaja & Kokonaisluku & Viestin kirjoittaneen käyttäjän id \\ \hline
 Aloitusviesti & Kokonaisluku & Sen viestin tunnus, johon vastine on vastaus \\ \hline
+Sisältö & Merkkijono, max 65 535 merkkiä & Vastineen sisältö \\ \hline
+Päivämäärä & Päivämäärä & Vastineen kirjoituspäivämäärä \\ \hline
 \end{tabular}
 \end{center}
-\ \\
+\ \\ \\ \\ \\
 
 \noindent \textbf{Keskustelualue}
 
@@ -144,6 +151,7 @@ Aloitusviesti & Kokonaisluku & Sen viestin tunnus, johon vastine on vastaus \\ \
 \begin{tabular}{| l | l | l | l |}
 \hline
 \textbf{Attribuutti} & \textbf{Arvojoukko} & \textbf{Kuvaus} \\ \hline
+Tunnus & Kokonaisluku & Keskustelualueen yksilöivä tunnus \\ \hline
 Nimi & Merkkijono, max 50 merkkiä & Keskustelualueen nimi \\ \hline
 \end{tabular}
 \end{center}
@@ -151,7 +159,7 @@ Nimi & Merkkijono, max 50 merkkiä & Keskustelualueen nimi \\ \hline
 \chapter{Relaatiotietokantakaavio}
 
 \begin{center}
-\includegraphics[scale=0.50]{relaatiotietokantakaavio}
+\includegraphics[scale=0.55]{relaatiotietokantakaavio}
 \end{center}
 
 \chapter{Järjestelmän yleisrakenne}
@@ -172,15 +180,16 @@ Sivukartta (seuraavalla sivulla):
 
 \chapter{Asennustiedot}
 
-Tulossa.
+Kopioi tiedostot palvelimelle. Oletusarvoisesti (add-test-data.sql-tiedostossa määritellysti) foorumin ylläpitäjän käyttäjätunnus on Teppo ja salasana kappelo. Koska foorumi tallentaa salasanat selkokielisesti (ja salasana on näkyvissä yllämainitussa tiedostossa), kannattaa salasana vaihtaa heti ensikirjautumisen jälkeen sovelluksen Vaihda salasana -välilehdeltä.
+
+Sovelluksella ei ole erillistä asetustiedostoa.
 
 \chapter{Käynnistys- / käyttöohje}
 
 Normaalin käyttäjän tunnus ja salasana: Tapsa, koppelo\\
+Ylläpitäjän tunnus ja salasana: Teppo, kappelo\\
 
-\noindent Tällä hetkellä foorumille voi lähettää uusia aloitusviestejä, ja niiden kirjoittaja ja ylläpitäjät voivat myös muokata niitä. Kaikki käyttäjät voivat vastata aloitusviesteihin, ja vastineita voi muokata ja poistaa.\\
-
-\noindent Foorumille on nyt myös mahdollista tehdä uusi käyttäjätunnus.\\
+\noindent Foorumille on myös mahdollista tehdä oma käyttäjätunnus.\\
 
 \noindent Linkkejä:\\
 \href{http://wlehtoma.users.cs.helsinki.fi/Keskustelufoorumi/esittelysivu.html}{Esittelysivu}\\
@@ -189,10 +198,16 @@ Normaalin käyttäjän tunnus ja salasana: Tapsa, koppelo\\
 
 \chapter{Testaus, tunnetut bugit ja puutteet \& jatkokehitysideat}
 
-Ylläpitoalue ei tällä hetkellä ole toiminnallinen.
+Hakutoiminto on hyvin alkeellinen. Lisäksi hakutulokset näyttävällä sivulla ei ole sivutusta, joten hakutuloksien määrästä riippumatta tulokset näytetään samalla sivulla.  \\
+
+\noindent Järjestelmä tallentaa salasanat selkokielisenä, mikä ei ole paras mahdollinen ratkaisu.\\
+
+\noindent Testaus on suoritettu manuaalisesti.
 
 \chapter{Omat kokemukset}
 
-Tulee kun työ on valmis.
+En ollut aiemmin käyttänyt PHP:tä, joten ongelmia ja päänvaivaa riitti. Esimerkiksi GET- ja POST-parametrit olivat jostain syystä mysteeri pitkän aikaa.\\
+
+\noindent Kuten muillakin kursseilla, dokumentaation räpeltäminen oli aina kurssin kuivinta antia. Ja itse kurssi oli yllättävän työläs, mutta tulipahan opittua PHP:tä.
 
 \end{document}

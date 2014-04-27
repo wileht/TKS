@@ -4,33 +4,29 @@ require_once 'libs/funktiot.php';
 require_once 'libs/models/Aloitusviesti.php';
 require_once 'libs/models/Vastine.php';
 
+//Ilman hakusanoja ei voi hakea
 if (empty($_POST["hakusanat"])) {
     naytaNakyma('haku.php', array(
         'virhe' => "Haku epäonnistui! Et antanut hakusanoja."
     ));
 }
 
+//Hajotetaan hakusanat yksittäisiksi sanoiksi
 $hakusanat = $_POST["hakusanat"];
-$kirjoittaja = $_POST['kirjoittaja'];
-$ennen = $_POST['ennen'] + " 00:00:00";
-$jalkeen = $_POST['jalkeen'] + " 00:00:00";
-
 $sanat = explode(" ", $hakusanat);
 $sanoja = count($sanat);
 
+//Liian pitkää hakusanayhdistelmää ei hyväksytä
 if ($sanoja > 10) {
     naytaNakyma('haku.php', array(
         'virhe' => "Haku epäonnistui! Annoit liikaa hakusanoja.",
     ));
 }
 
+//Suoritetaan haku kaikille hakusanoille erikseen ja kootaan kaikki tulokset samaan listaan
 $a = array();
 foreach ($sanat as $sana) {
-    if ($sana == "ja" || $sana == "on" || $sana == "ei" || $sana == "mutta" || $sana == "että" || $sana == "tai") {
-        $sanoja--;
-        continue;
-    }
-    
+    //Haku suoritetaan sekä aloitusviesteille että vastineille
     $aloitusviestit = Aloitusviesti::etsiHakusanalla($sana);
     if ($aloitusviestit != null) {
         foreach ($aloitusviestit as $aloitusviesti) {
@@ -46,6 +42,9 @@ foreach ($sanat as $sana) {
     }
 }
 
+//Lopulliseen tuloslistaan hyväksytään vain tulokset, joissa esiintyy kaikki annetut hakusanat. Halutun kaltaiset viestit
+//esiintyvät siis aiemmin saadussa tuloslistassa niin monta kertaa kuin annetussa hakusanayhdistelmässä oli sanoja.
+//Kerätään tämän ehdon toteuttavat viestit omaan listaansa.
 $b = array();
 foreach ($a as $jasen) {
     $count = 0;
@@ -59,7 +58,13 @@ foreach ($a as $jasen) {
     }
 }
 
+//Hakusanojen lisäksi käyttäjä pystyy asettamaan hakutuloksille myös muunlaisia ehtoja. Kerätään näiden ehtojen
+//poistamat tulokset omaan listaansa.
 $poistettavat = array();
+
+//Mikäli viestin kirjoittajalle on annettu ehto, lisätään poistettaviin viesteihin kaikki viestit, joiden kirjoittaja
+//ei ole halutun niminen.
+$kirjoittaja = $_POST['kirjoittaja'];
 if (!empty($kirjoittaja)) {
     foreach ($b as $viesti) {
         if ($kirjoittaja != $viesti->getKirjoittajaNimi()) {
@@ -68,7 +73,9 @@ if (!empty($kirjoittaja)) {
     }
 }
 
-if (!empty($ennen)) {
+//Mikäli hakutuloksien halutaan olevan tiettyä päivämäärää aiemmin kirjoitettuja, lisätään poistettaviin liian uudet viestit.
+if (!empty($_POST['ennen'])) {
+    $ennen = $_POST['ennen'] + " 00:00:00";
     foreach ($b as $viesti) {
         if ($ennen < $viesti->getPaivamaara()) {
             $poistettavat[] = $viesti;
@@ -76,7 +83,9 @@ if (!empty($ennen)) {
     }
 }
 
-if (!empty($jalkeen)) {
+//Mikäli hakutuloksien halutaan olevan tiettyä päivämäärää tuoreempia, lisätään poistettaviin liian vanhat viestit.
+if (!empty($_POST['jalkeen'])) {
+    $jalkeen = $_POST['jalkeen'] + " 00:00:00";
     foreach ($b as $viesti) {
         if ($jalkeen > $viesti->getPaivamaara()) {
             $poistettavat[] = $viesti;
@@ -84,26 +93,20 @@ if (!empty($jalkeen)) {
     }
 }
 
-foreach ($poistettavat as $poistettava) {
-    if (($key = array_search($poistettava, $b)) !== false) {
-        unset($b[$key]);
+//Verrataan täyttä hakutuloslistaa ja poistettavien listaa, ja kerätään poistettavien rivien avaimet omaan listaansa.
+$avaimet = array();
+foreach ($b as $bJasen) {
+    if (($key = array_search($bJasen, $poistettavat)) !== false) {
+        $avaimet[] = $key;
     }
 }
 
+//Käytetään aiemmin luotua avainlistaa poistamaan hakutuloslistalta halutut rivit.
+foreach ($avaimet as $key) {
+    unset($b[$key]);
+}
+
+//Varmistetaan, että kukin viesti esiintyy hakutuloksissa vain kerran
 $b = array_map("unserialize", array_unique(array_map("serialize", $b)));
 
-//if (isset($_GET['sivu'])) {
-//    $sivu = (int) $_GET['sivu'];
-//
-//    if ($sivu < 1) {
-//        $sivu = 1;
-//    }
-//} else {
-//    $sivu = 1;
-//}
-$sivu = 1;
-$montako = 50;
-
-$sivuja = ceil(count($b) / $montako);
-
-naytaNakyma('hakutulokset.php', array('sivuja' => $sivuja, 'sivu' => $sivu, 'tulokset' => $b, 'montako' => $montako));
+naytaNakyma('hakutulokset.php', array('tulokset' => $b));

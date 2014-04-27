@@ -27,7 +27,7 @@
                 <input type="text" class="form-control" id="jalkeen" name="jalkeen" placeholder="Jälkeen (VVVV-KK-PP)"
                        value="<?php echo $data->jalkeen; ?>">
             </div>
-</div>
+        </div>
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
                 <button type="submit" class="btn btn-default">Hae</button>

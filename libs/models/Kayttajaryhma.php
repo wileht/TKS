@@ -24,7 +24,7 @@ class Kayttajaryhma {
         }
         return $tulos->id;
     }
-    
+
     public function kaikkiRyhmat() {
         //Etsitään ja palautetaan kaikki foorumin käyttäjäryhmät
         $sql = "SELECT id, nimi from Kayttajaryhma";
@@ -41,10 +41,11 @@ class Kayttajaryhma {
         }
         return $a;
     }
-    
+
     public function onkoNimiVapaa() {
+        //Katsotaan onko tietokannassa samannimistä käyttäjäryhmää
         $nimi = $this->nimi;
-        
+
         $sql = "SELECT id from Kayttajaryhma where nimi = ? LIMIT 1";
         require_once "tietokantayhteys.php";
         $kysely = getTietokantayhteys()->prepare($sql);
@@ -57,7 +58,7 @@ class Kayttajaryhma {
             return false;
         }
     }
-    
+
     public function lisaaKantaan() {
         //Lisätään käyttäjäryhmä tietokantaan, palautetaan alueen tietokannassa saama id
         $sql = "INSERT INTO Kayttajaryhma VALUES(default,?) RETURNING id";
@@ -71,31 +72,32 @@ class Kayttajaryhma {
         }
         return $this->id;
     }
-    
+
     public function poistaKayttajaryhma($id) {
+        //Poistetaan annettu käyttäjäryhmä tietokannasta
         $sql = "delete from Kayttajaryhma where id = ?";
         require_once "tietokantayhteys.php";
         $kysely = getTietokantayhteys()->prepare($sql);
 
         $ok = $kysely->execute(array($id));
     }
-    
+
     public function onkoKelvollinen() {
         return empty($this->virheet);
     }
-    
+
     public function getId() {
         return $this->id;
     }
-    
+
     public function setId($id) {
         $this->id = $id;
     }
-    
+
     public function getNimi() {
         return $this->nimi;
     }
-    
+
     public function getVirheet() {
         return $this->virheet;
     }
@@ -103,7 +105,7 @@ class Kayttajaryhma {
     public function setVirheet($virheet) {
         $this->virheet = $virheet;
     }
-    
+
     public function setNimi($nimi) {
         $this->nimi = $nimi;
 
@@ -116,4 +118,5 @@ class Kayttajaryhma {
             unset($this->virheet['nimi']);
         }
     }
+
 }

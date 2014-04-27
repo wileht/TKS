@@ -3,7 +3,7 @@
 require_once "libs/funktiot.php";
 require_once "libs/models/Kayttaja.php";
 
-//Jos jompikumpi salasanakentistä on tyhjä, kirjautumista ei hyväksytä
+//Jos jompikumpi salasanakentistä on tyhjä, vaihtoa ei hyväksytä
 if (empty($_POST["password1"])) {
     naytaNakyma('vaihdaSalasana.php', array(
         'virhe' => "Salasanan vaihto epäonnistui! Et antanut salasanaa.",
@@ -28,10 +28,11 @@ if ($_POST['password1'] != $_POST['password2']) {
     ));
 }
 
+//Luodaan uusi Kayttaja-luokan ilmentymä, jotta luokan metodeja voidaan kutsua
 $uusiKayttaja = new Kayttaja();
 $uusiKayttaja->setSalasana($salasana1);
 
-//Mikäli salasana kelvollinen, se lisätään tietokantaan
+//Mikäli salasana kelvollinen, sitä vastaavaa riviä muutetaan tietokannassa
 if ($uusiKayttaja->onkoKelvollinen()) {
     $uusiKayttaja->muutaSalasanaa($_SESSION['kirjautunut'], $salasana1);
 

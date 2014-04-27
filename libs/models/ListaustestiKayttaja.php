@@ -4,6 +4,7 @@ class Kayttaja {
 
     private $id;
     private $nimi;
+
     //private $password;
 
     public function __construct($id, $tunnus) {
@@ -20,7 +21,7 @@ class Kayttaja {
 
         $tulokset = array();
         foreach ($kysely->fetchAll(PDO::FETCH_OBJ) as $tulos) {
-            $kayttaja = new Kayttaja($tulos->id,$tulos->nimi);
+            $kayttaja = new Kayttaja($tulos->id, $tulos->nimi);
             $tulokset[] = $kayttaja;
         }
         return $tulokset;
@@ -30,15 +31,12 @@ class Kayttaja {
         return $this->nimi;
     }
 
-    //public static function setSalasana($salasana) {
-        //$this->salasana = $salasana;
-    //}
-    
     public function setTunnus($tunnus) {
         $this->nimi = $tunnus;
     }
-    
+
     public function setId($id) {
         $this->id = $id;
     }
+
 }

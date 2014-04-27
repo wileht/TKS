@@ -38,7 +38,7 @@
                         </table>
                     </div>
                     <p>Huom: Käyttäjäryhmien valitseminen tarkoittaa, että VAIN valitut käyttäjäryhmät voivat lukea aluetta.
-                    Mikäli haluat alueen olevan kaikille avoin, jätä kaikki valinnat tyhjiksi. Ylläpitäjät voivat lukea kaikkia alueita.</p>
+                        Mikäli haluat alueen olevan kaikille avoin, jätä kaikki valinnat tyhjiksi. Ylläpitäjät voivat lukea kaikkia alueita.</p>
                 </div>
                 <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-10">

@@ -63,16 +63,18 @@ class Keskustelualue {
     }
 
     public function poistaKeskustelualue($id) {
+        //Poistetaan annettu keskustelualue tietokannasta
         $sql = "delete from Keskustelualue where id = ?";
         require_once "tietokantayhteys.php";
         $kysely = getTietokantayhteys()->prepare($sql);
 
         $ok = $kysely->execute(array($id));
     }
-    
+
     public function onkoNimiVapaa() {
+        //Selvitetään onko tietokannassa samannimistä keskustelualuetta
         $nimi = $this->nimi;
-        
+
         $sql = "SELECT id from Keskustelualue where nimi = ? LIMIT 1";
         require_once "tietokantayhteys.php";
         $kysely = getTietokantayhteys()->prepare($sql);
@@ -87,6 +89,7 @@ class Keskustelualue {
     }
 
     public function getViesteja() {
+        //Palautetaan keskustelualueen aloitusviestien lukumäärä
         require_once 'libs/models/Aloitusviesti.php';
         return Aloitusviesti::lukumaara($this->id);
     }

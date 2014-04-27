@@ -58,19 +58,21 @@ class Vastine {
     }
 
     public function getKeskustelualueNimi() {
+        //Etsitään vastineen keskustelualueen nimi
         require_once 'libs/models/Keskustelualue.php';
         return Keskustelualue::etsiNimiIdlla($this->keskustelualue);
     }
-    
+
     public static function kayttajanViesteja($id) {
-        //Lasketaan ja palautetaan annetun keskustelualueen viestien määrä
+        //Lasketaan ja palautetaan annetun käyttäjän kirjoittamien vastineiden määrä
         $sql = "SELECT count(*) FROM Vastine where kirjoittaja = ?";
         $kysely = getTietokantayhteys()->prepare($sql);
         $kysely->execute(array($id));
         return $kysely->fetchColumn();
     }
-    
+
     public function kayttajanViimeisinViestiPvm($id) {
+        //Etsitään käyttäjän viimeisimmän vastineen päivämäärä
         $sql = "SELECT max(paivamaara) FROM Vastine where kirjoittaja = ?";
         $kysely = getTietokantayhteys()->prepare($sql);
         $kysely->execute(array($id));
@@ -78,7 +80,7 @@ class Vastine {
     }
 
     public function lisaaKantaan() {
-        //Lisätään viesti tietokantaan
+        //Lisätään vastine tietokantaan
         $sql = "INSERT INTO Vastine VALUES(default,?,?,?,?,?) RETURNING id";
         require_once "tietokantayhteys.php";
         $kysely = getTietokantayhteys()->prepare($sql);
@@ -92,7 +94,7 @@ class Vastine {
     }
 
     public function etsiVastine($viestiId) {
-        //Etsitään vastine tämän tietokanta-id:n perusteella
+        //Etsitään vastine sen tietokanta-id:n perusteella
         $sql = "SELECT id, kirjoittaja, keskustelualue, aloitusviesti, sisalto, paivamaara from Vastine where id = ? LIMIT 1";
         require_once "tietokantayhteys.php";
         $kysely = getTietokantayhteys()->prepare($sql);
@@ -137,6 +139,7 @@ class Vastine {
     }
 
     public function etsiUusimmanVastineenPvm($viestiId) {
+        //Etsitään aloitusviestin viimeisimmän vastineen päivämäärä
         $sql = "SELECT max(paivamaara) FROM Vastine where aloitusviesti = ?";
         $kysely = getTietokantayhteys()->prepare($sql);
         $kysely->execute(array($viestiId));
@@ -144,6 +147,7 @@ class Vastine {
     }
 
     public function etsiHakusanalla($sana) {
+        //Yksinkertainen hakutoiminto, jossa vastineen sisällöstä etsitään hakusanaa muistuttavia sanoja
         $sana = "%" . $sana . "%";
         $sql = "SELECT id, kirjoittaja, keskustelualue, aloitusviesti, sisalto, paivamaara from Vastine where sisalto ILIKE ? ORDER by paivamaara";
         require_once "tietokantayhteys.php";
@@ -152,6 +156,7 @@ class Vastine {
 
         $c = array();
         foreach ($kysely->fetchAll(PDO::FETCH_OBJ) as $viesti) {
+            //Löydetyille vastineille luodaan Vastine-luokan ilmentymät
             $uusi = new Vastine();
             $uusi->setId($viesti->id);
             $uusi->setKirjoittaja($viesti->kirjoittaja);
@@ -162,10 +167,6 @@ class Vastine {
             $c[] = $uusi;
         }
         return $c;
-    }
-
-    public function getOtsikko() {
-        return 'blaarg';
     }
 
     public function getId() {

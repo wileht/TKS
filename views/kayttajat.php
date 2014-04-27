@@ -30,7 +30,7 @@
                                         <input type="checkbox" name="checklist[]" value="<?php echo $kayttaja->getId(); ?>"> <?php echo $kayttaja->getNimi(); ?>
                                     </label></td>
                                 <td><?php echo $kayttaja->montakoViestia(); ?></td>
-                                <td><?php echo $kayttaja->viimeisinViesti(); ?></td>
+                                <td><?php echo date("d.m.Y H:m", strtotime($kayttaja->viimeisinViesti())); ?></td>
                                 <td><a href="poistaKayttaja.php?kayttajaId=<?php echo $kayttaja->getId(); ?>" role="button" class="btn btn-xs btn-danger"><span class="glyphicon glyphicon-trash"></span> Poista</a></td>
                             </tr>
                         <?php endforeach; ?>

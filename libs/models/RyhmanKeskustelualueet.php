@@ -13,6 +13,7 @@ class RyhmanKeskustelualueet {
     }
 
     public function lisaaKantaan() {
+        //Lisätään tietokantaan uusi rivi ja palautetaan rivin saama id
         $sql = "INSERT INTO RyhmanKeskustelualueet VALUES(default,?,?) RETURNING id";
         require_once "tietokantayhteys.php";
         $kysely = getTietokantayhteys()->prepare($sql);
@@ -26,7 +27,8 @@ class RyhmanKeskustelualueet {
     }
 
     public function onkoKayttajaryhmallaOikeuttaAlueeseen($kayttajaryhma, $keskustelualue) {
-        //Tarkistetaan onko annettu käyttäjä annetun käyttäjäryhmän jäsen
+        //Tarkistetaan onko annetulla käyttäjäryhmällä lukuoikeus annetulle keskustelualueelle, eli että löytyykö
+        //taulusta halutun kaltainen rivi
         require_once "tietokantayhteys.php";
 
         $sql1 = "SELECT kayttajaryhma, keskustelualue from Ryhmankeskustelualueet where kayttajaryhma = ? AND keskustelualue = ? LIMIT 1";
@@ -41,6 +43,8 @@ class RyhmanKeskustelualueet {
     }
 
     public function onkoKaikilleAvoin($keskustelualue) {
+        //Tarkistetaan onko annettu keskustelualue kaikille avoin. Alue on kaikille avoin, mikäli taulussa ei ole yhtään
+        //keskustelualueeseen viittaavaa riviä.
         require_once "tietokantayhteys.php";
 
         $sql1 = "SELECT kayttajaryhma from Ryhmankeskustelualueet where keskustelualue = ?";
@@ -55,6 +59,8 @@ class RyhmanKeskustelualueet {
     }
 
     public function poistaAlueenVanhatOikeudet($alue) {
+        //Poistetaan taulusta kaikki annettuun keskustelualueeseen viittaavat rivit, eli poistetaan lukuoikeuksien
+        //rajoitukset ja tehdään alueesta kaikille avoin (ainakin tilapäisesti).
         $sql = "delete from RyhmanKeskustelualueet where keskustelualue = ?";
         require_once "tietokantayhteys.php";
         $kysely = getTietokantayhteys()->prepare($sql);

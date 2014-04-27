@@ -12,10 +12,11 @@ $uusiViesti->setKeskustelualue($_GET['id']);
 $uusiViesti->setSisalto($_POST['sisalto']);
 $uusiViesti->setOtsikko($_POST['otsikko']);
 
+//Mikäli viestistä ei löydy ongelma, muokkaus hyväksytään
 if ($uusiViesti->onkoKelvollinen()) {
     $uusiViesti->muokkaaAloitusviestia($_GET['viesti']);
     $_SESSION['ilmoitus'] = "Muokkaus onnistui.";
-    header('Location: viesti.php?viesti=' . $_GET['viesti']);
+    header('Location: viesti.php?id='.$_GET['id'].'&viesti=' . $_GET['viesti']);
 } else {
     //Mikäli muokkaus ei onnistunut, palautetaan käyttäjä muokkausnäkymään virheellisine muokkauksineen
     $virheet = $uusiViesti->getVirheet();

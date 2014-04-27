@@ -1,4 +1,5 @@
 <?php
+
 require_once 'libs/funktiot.php';
 //Vain ylläpitäjillä on oikeus tarkastella tätä sivua
 if (onkoYllapitaja()) {

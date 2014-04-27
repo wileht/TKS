@@ -14,16 +14,14 @@
             </tr>
         </thead>
         <tbody>
-            <?php $a = $data->tulokset; ?>
-            <?php for ($i = $data->sivu; $i <= $data->montako; $i++): ?>
-            <?php $viesti = $a[$i]; ?>
+            <?php foreach ($data->tulokset as $viesti): ?>
                 <tr>
                     <td><a href="viesti.php?id=<?php echo $viesti->getKeskustelualue(); ?>&viesti=<?php echo $viesti->getAloitusviesti() ?>"><?php echo htmlspecialchars($viesti->getOtsikko()) ?></td>
                     <td><?php echo $viesti->getKirjoittajaNimi(); ?></td>
                     <td><?php echo $viesti->getKeskustelualueNimi(); ?></td>
-                    <td><?php echo $viesti->getPaivamaara(); ?></td>
+                    <td><?php echo date("d.m.Y H:m", strtotime($viesti->getPaivamaara())); ?></td>
                 </tr>
-            <?php endfor; ?>
+            <?php endforeach; ?>
         </tbody>
     </table>
     <?php if ($data->sivu > 1): ?>

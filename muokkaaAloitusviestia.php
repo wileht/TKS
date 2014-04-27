@@ -1,4 +1,5 @@
 <?php
+
 require_once 'libs/funktiot.php';
 require_once 'libs/models/Aloitusviesti.php';
 

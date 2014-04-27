@@ -4,17 +4,20 @@ require_once 'libs/funktiot.php';
 require_once 'libs/models/Keskustelualue.php';
 require_once 'libs/models/RyhmanKeskustelualueet.php';
 
+//Luodaan lisäystä vaeten uusi Keskustelualue-luokan ilmentymä
 $uusiAlue = new Keskustelualue();
 $uusiAlue->setNimi($_POST['nimi']);
 
+//Foorumi ei hyväksy kahta samannimistä keskustelualuetta
 if (!$uusiAlue->onkoNimiVapaa()) {
     $_SESSION['ilmoitus'] = "Antamasi nimi on jo käytössä.";
     header('Location: uusiAlue.php');
 } else {
-//Mikäli viesti on kelvollinen, se lisätään tietokantaan
+//Mikäli keskustelualueen nimi on kelvollinen, alue lisätään tietokantaan
     if ($uusiAlue->onkoKelvollinen()) {
         $alueId = $uusiAlue->lisaaKantaan();
 
+        //Asetetaan keskustelualueelle halutun mukaiset lukuoikeudet
         if (!empty($_POST['checklist'])) {
             foreach ($_POST['checklist'] as $check) {
                 $uusiRyhmaAlue = new RyhmanKeskustelualueet();
@@ -26,8 +29,7 @@ if (!$uusiAlue->onkoNimiVapaa()) {
         $_SESSION['ilmoitus'] = "Keskustelualue luotu.";
         header('Location: alueet.php');
     } else {
-        //Mikäli viesti ei ole kelvollinen, käyttäjä palautetaan kirjoitusnäkymään
-        $virheet = $uusiAlue->getVirheet();
+        //Mikäli keskustelualueen nimi ei ole kelvollinen, käyttäjä palautetaan lisäysnäkymään
 
         if (isset($_POST["nimi"])) {
             $nimi = $_POST["nimi"];
