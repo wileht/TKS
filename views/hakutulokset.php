@@ -19,7 +19,7 @@
                     <td><a href="viesti.php?id=<?php echo $viesti->getKeskustelualue(); ?>&viesti=<?php echo $viesti->getAloitusviesti() ?>"><?php echo htmlspecialchars($viesti->getOtsikko()) ?></td>
                     <td><?php echo $viesti->getKirjoittajaNimi(); ?></td>
                     <td><?php echo $viesti->getKeskustelualueNimi(); ?></td>
-                    <td><?php echo date("d.m.Y H:m", strtotime($viesti->getPaivamaara())); ?></td>
+                    <td><?php echo date("d.m.Y H:i", strtotime($viesti->getPaivamaara())); ?></td>
                 </tr>
             <?php endforeach; ?>
         </tbody>
